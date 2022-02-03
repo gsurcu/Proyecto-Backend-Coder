@@ -1,7 +1,6 @@
 import { productos } from "../../data/data";
-import fs from "fs/promises"
 
-export default class ProductosApi {
+export class CarritoApi {
   constructor() {
     this.productos = [];
     this.load()
@@ -11,7 +10,7 @@ export default class ProductosApi {
   load() {
     try {
       const load = async () => {
-        this.productos = await JSON.parse(fs.readFile("./data/data.json",'utf-8'));;
+        this.productos = await productos;
       };
       load();
     } catch (error) {
@@ -33,7 +32,7 @@ export default class ProductosApi {
     const { nombre, descripcion, precio, imagen } = prod;
     console.log(prod)
     if (!nombre || !imagen || !precio ) return { error: 'nombre, url y precio son campos obligatorios' };
-    const nuevoProducto = { ...prod, id: ++ProductosApi.idCount };
+    const nuevoProducto = { ...prod, id: ++CarritoApi.idCount };
     this.productos.push(nuevoProducto);
     return nuevoProducto;
   };

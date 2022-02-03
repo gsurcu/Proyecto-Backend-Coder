@@ -1,6 +1,6 @@
-import { ProductosApi } from "../models/productos/productos.api";
+import { CarritoApi } from "../models/carrito/carrito.api";
 
-const productos = new ProductosApi();
+const productos = new CarritoApi();
 
 const listarProductosController = (req, res) => {
   const { precio, busqueda } = req.query;
@@ -50,7 +50,7 @@ const eliminarProductoController = (req, res) => {
   return res.json(prodcutoEliminado);
 };
 
-module.exports = {
+export {
   listarProductosController,
   listarProductosPorIdController,
   guardarProductoController,

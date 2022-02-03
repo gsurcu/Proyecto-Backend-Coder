@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const {
   listarProductosController,
   listarProductosPorIdController,
@@ -7,16 +7,16 @@ const {
   eliminarProductoController
 } = require('../../controllers/productos.controllers');
 
-const router = express.Router();
+const rutasProductos = express.Router();
 
-router.get('/', listarProductosController);
+rutasProductos.get('/', listarProductosController);
 
-router.get('/:idProducto', listarProductosPorIdController);
+rutasProductos.get('/:id', listarProductosPorIdController);
 
-router.post('/', guardarProductoController);
+rutasProductos.post('/', guardarProductoController);
 
-router.put('/:idProducto', actualizarProductoController);
+rutasProductos.put('/:id', actualizarProductoController);
 
-router.delete('/:idProducto', eliminarProductoController);
+rutasProductos.delete('/:id', eliminarProductoController);
 
-module.exports = router;
+export default rutasProductos
