@@ -1,12 +1,11 @@
 import { CarritoApi } from "../models/carrito/carrito.api";
+import ProductosApi from "../models/productos/productos.api";
 
 const carrito = new CarritoApi();
 
 const crearCarritoController = (req, res) => {
-  const { idProducto } = req.params;
-  const producto = carrito.listarPorId(idProducto);
-  if (producto.error) return res.status(404).send(producto.error);
-  return res.json(producto);
+  const id = carrito.crearCarrito();
+  return res.status(200).json({message: `Se creo el carrito con id: ${id}`});
 };
 
 const eliminarCarritoController = (req, res) => {
@@ -17,27 +16,17 @@ const eliminarCarritoController = (req, res) => {
 };
 
 const listarCarritoController = (req, res) => {
-  const { precio, busqueda } = req.query;
-  let respuestacarrito =carrito.listarTodos();
-  if (Object.keys(req.query).length) {
-    if (precio) {
-      if (isNaN(+precio)) {
-        return res.status(400).send('precioMaximo must be a valid number');
-      }
-      respuestacarrito = respuestacarrito.filter(producto => producto.precio <= +precio);
-    }
-    if (busqueda) {
-      respuestacarrito = respuestacarrito
-        .filter(producto => 
-          producto.nombre.toLowerCase().startsWith(busqueda.toLowerCase())
-        )
-    }
+  const { id } = req.params;
+  if (id) {
+    const producto = carrito.listarTodos(id);
+    if (producto.error) return res.status(404).send(producto.error);
+    return res.status(200).json(producto);
   }
-  return res.json(respuestacarrito);
+  return res.status(200).json(respuestaProductos);
 };
 
 const agregarProdCarritoController = (req, res) => {
-  const { params: { idProducto } } = req;
+  const { params: { id } } = req;
   const productoActualizado = carrito.actualizar(req.body, idProducto);
   if (productoActualizado.error) return res.status(404).send(productoActualizado.error);
   return res.json(productoActualizado);

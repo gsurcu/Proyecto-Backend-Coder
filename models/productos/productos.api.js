@@ -1,3 +1,4 @@
+import {v4 as uuidv4} from "uuid";
 import fs from "fs/promises"
 
 export default class ProductosApi {
@@ -6,7 +7,6 @@ export default class ProductosApi {
     this.archivo = "./data/data.json";
     this.load()
   }
-  static idCount = 0;
 
   load() {
     try {
@@ -30,7 +30,7 @@ export default class ProductosApi {
   };
 
   guardar(prod) {
-    const nuevoProducto = { ...prod, id: ++ProductosApi.idCount, timestamp: Date.now() };
+    const nuevoProducto = { ...prod, id: uuidv4(), timestamp: Date.now() };
     this.productos.push(nuevoProducto);
 
     fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
