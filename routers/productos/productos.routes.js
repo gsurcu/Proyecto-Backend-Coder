@@ -1,17 +1,12 @@
 import express from 'express';
-const {
-  listarProductosController,
-  listarProductosPorIdController,
+import { listarProductosPorIdController,
   guardarProductoController,
   actualizarProductoController,
-  eliminarProductoController
-} = require('../../controllers/productos.controllers');
+  eliminarProductoController } from '../../controllers/productos.controllers';
 
 const rutasProductos = express.Router();
 
-rutasProductos.get('/', listarProductosController);
-
-rutasProductos.get('/:id', listarProductosPorIdController);
+rutasProductos.get('/:id?', listarProductosPorIdController);
 
 rutasProductos.post('/', guardarProductoController);
 

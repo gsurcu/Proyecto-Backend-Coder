@@ -1,6 +1,4 @@
-import { productos } from "../../data/data";
-
-export class CarritoApi {
+export default class CarritoApi {
   constructor() {
     this.productos = [];
     this.load()

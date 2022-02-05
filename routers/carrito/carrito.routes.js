@@ -1,16 +1,20 @@
 import express from 'express';
-import { listarProductosController } from '../../controllers/productos.controllers';
+import { crearCarritoController,
+  eliminarCarritoController,
+  listarCarritoController,
+  agregarProdCarritoController,
+  eliminarProdCarritoController } from '../../controllers/carrito.controllers';
 
 const rutasCarrito = express.Router();
 
-rutasCarrito.post('/', a);
+rutasCarrito.post('/', crearCarritoController);
 
-rutasCarrito.get('/:id?', b);
+rutasCarrito.delete('/:id', eliminarCarritoController);
 
-rutasCarrito.get('/:id?/productos', c);
+rutasCarrito.get('/:id/productos', listarCarritoController);
 
-rutasCarrito.post('/:id?/productos', d);
+rutasCarrito.post('/:id/productos', agregarProdCarritoController);
 
-rutasCarrito.delete('/:id?/productos/:id_prod', e);
+rutasCarrito.delete('/:id/productos/:id_prod', eliminarProdCarritoController);
 
 export default rutasCarrito;
