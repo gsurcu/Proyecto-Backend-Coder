@@ -1,5 +1,5 @@
-import { CarritoApi } from "../models/carrito/carrito.api";
-import productos from "../controllers/productos.controllers"
+import { CarritoApi } from "../models/carrito/carrito.api.js";
+import { productos } from "../controllers/productos.controllers.js"
 
 const carrito = new CarritoApi();
 
@@ -67,7 +67,7 @@ const eliminarProdCarritoController = (req, res) => {
   return res.status(400).json({error: "No se proporciono ningun id"});
 };
 
-export default {
+export {
   crearCarritoController,
   eliminarCarritoController,
   listarCarritoController,

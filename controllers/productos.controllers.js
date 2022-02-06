@@ -1,4 +1,4 @@
-import { ProductosApi } from "../models/productos/productos.api";
+import { ProductosApi } from "../models/productos/productos.api.js";
 
 const productos = new ProductosApi();
 
@@ -6,10 +6,10 @@ const listarProductosPorIdController = (req, res) => {
   const { idProducto } = req.params;
 
   if (idProducto) {
-    const producto = productos.getAllOrById(idProducto);
+    const producto = productos.listarPorIdOTodo(idProducto);
     return res.status(200).json(producto);
   }
-  const productos = productos.getAllOrById();
+  const productos = productos.listarPorIdOTodo();
   return res.status(200).json(productos);
 };
 
@@ -36,7 +36,7 @@ const eliminarProductoController = (req, res) => {
   return res.status(200).json(prodcutoEliminado);
 };
 
-export default {
+export {
   listarProductosPorIdController,
   guardarProductoController,
   actualizarProductoController,

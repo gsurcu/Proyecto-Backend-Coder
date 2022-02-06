@@ -1,17 +1,19 @@
 import {v4 as uuidv4} from "uuid";
 import fs from "fs/promises"
 
-export default class ProductosApi {
+export class ProductosApi {
   constructor() {
     this.productos = [];
     this.archivo = "./data/data.json";
-    this.load()
+    this.open()
   }
 
-  load() {
+  open() {
     try {
       const load = async () => {
-        this.productos = await JSON.parse(fs.readFile(this.archivo,'utf-8'));
+        const data = await fs.readFile(this.archivo,'utf-8');
+        this.productos = JSON.parse(data);
+        // console.log(this.productos)
       };
       load();
     } catch (error) {
@@ -20,7 +22,7 @@ export default class ProductosApi {
     }
   }
 
-  listarPorIdOTodo() {
+  listarPorIdOTodo(id) {
     if (id) {
       return this.productos.find((producto) => producto.id === id);
     }

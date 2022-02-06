@@ -1,8 +1,5 @@
 import express from 'express';
-import { listarProductosPorIdController,
-  guardarProductoController,
-  actualizarProductoController,
-  eliminarProductoController } from '../../controllers/productos.controllers';
+import { listarProductosPorIdController, guardarProductoController, actualizarProductoController, eliminarProductoController } from '../../controllers/productos.controllers.js';
 
 const rutasProductos = express.Router();
 

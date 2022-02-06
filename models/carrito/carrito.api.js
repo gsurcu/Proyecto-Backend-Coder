@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from "uuid";
 import fs from "fs/promises"
 
-export default class CarritoApi {
+export class CarritoApi {
   constructor() {
     this.carrito = [];
     this.archivo = "./data/carrito.json";
@@ -11,7 +11,9 @@ export default class CarritoApi {
   load() {
     try {
       const load = async () => {
-        this.productos = JSON.parse( await fs.readFile(this.archivo,'utf-8'));
+        const data = await fs.readFile(this.archivo,'utf-8')
+        console.log(data)
+        this.productos = JSON.parse( data );
       };
       load();
     } catch (error) {

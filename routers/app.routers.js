@@ -1,6 +1,6 @@
 import express from 'express';
-import rutasProductos from './productos/productos.routes';
-import rutasCarrito from './carrito/carrito.routes';
+import rutasProductos from './productos/productos.routes.js';
+import rutasCarrito from './carrito/carrito.routes.js';
 
 const router = express.Router();
 
@@ -18,4 +18,4 @@ router.use('*', (req, res) => {
   });
 });
 
-export default router;
+export {router};

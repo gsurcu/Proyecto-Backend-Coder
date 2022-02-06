@@ -1,9 +1,5 @@
 import express from 'express';
-import { crearCarritoController,
-  eliminarCarritoController,
-  listarCarritoController,
-  agregarProdCarritoController,
-  eliminarProdCarritoController } from '../../controllers/carrito.controllers';
+import { crearCarritoController, eliminarCarritoController, listarCarritoController, agregarProdCarritoController, eliminarProdCarritoController } from '../../controllers/carrito.controllers.js';
 
 const rutasCarrito = express.Router();
 
