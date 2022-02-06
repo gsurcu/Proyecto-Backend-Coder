@@ -1,12 +1,32 @@
 [
   {
+    "id": "a7eb28db-1514-47a1-9fcb-48c55237139e",
     "nombre": "Lapicera",
-    "descripcion": "Es una lapicer bic azul",
+    "descripcion": "Es una lapicera bic azul",
     "precio": 25,
     "codigo": "1234",
     "imagen": "https://aldina.com.ar/wp-content/uploads/2020/08/bic-cristal-trazo-fino-azul-1.jpg",
     "stock": 120,
-    "id": "a7eb28db-1514-47a1-9fcb-48c55237139e",
     "timestamp": 1644168593781
+  },
+  {
+    "nombre": "Taza",
+    "descripcion": "Es una taza azul",
+    "precio": 230,
+    "codigo": "2345",
+    "imagen": "https://http2.mlstatic.com/D_NQ_NP_796811-MLA46710962355_072021-W.jpg",
+    "stock": 50,
+    "id": "d3ff952b-e1eb-4783-9658-73d820c5652b",
+    "timestamp": 1644169639895
+  },
+  {
+    "nombre": "Mesa",
+    "descripcion": "Es una mesa rectangular",
+    "precio": 3500,
+    "codigo": "3456",
+    "imagen": "https://www.espacity.com/w/wp-content/uploads/01476001000020_1-768x624.jpg",
+    "stock": 20,
+    "id": "5f1cf610-da09-4dce-a869-af90ada25cb5",
+    "timestamp": 1644172472781
   }
 ]

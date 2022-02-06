@@ -13,26 +13,26 @@ const listarProductosPorIdController = (req, res) => {
   return res.status(200).json(producto);
 };
 
-const guardarProductoController = (req, res) => {
+const guardarProductoController = async (req, res) => {
   const { nombre, descripcion, precio, codigo, imagen, stock } = req.body || {};
-  console.log(nombre)
   if (nombre && descripcion && precio && codigo && imagen && stock ) {
-    const nuevoProducto = productos.guardar( {nombre, descripcion, precio, codigo, imagen, stock} );
+    const nuevoProducto = await productos.guardar( {nombre, descripcion, precio, codigo, imagen, stock} );
+    console.log(nuevoProducto)
     return res.status(200).json(nuevoProducto);
   }
   return res.status(400).json({error: "Faltan datos"});
 };
 
-const actualizarProductoController = (req, res) => {
+const actualizarProductoController = async (req, res) => {
   const { id } = req.params;
-  const productoActualizado = productos.actualizar(req.body, id);
+  const productoActualizado = await productos.actualizar(req.body, id);
   if (productoActualizado.error) return res.status(404).send(productoActualizado.error);
   return res.status(200).json(productoActualizado);
 };
 
-const eliminarProductoController = (req, res) => {
+const eliminarProductoController = async (req, res) => {
   const { id } = req.params;
-  const productoEliminado = productos.eliminar(id);
+  const productoEliminado = await productos.eliminar(id);
   if (productoEliminado.error) return res.status(404).send(productoEliminado.error);
   return res.status(200).json(productoEliminado);
 };

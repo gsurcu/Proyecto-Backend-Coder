@@ -39,15 +39,15 @@ export class ProductosApi {
       await fs.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
       return nuevoProducto;
     }
-    return {}
+    return nuevoProducto
   };
 
   async actualizar(prod, id) {
     const indice = this.productos.findIndex(prod => prod.id === id);
-    this.productos[indice] = { id: id, ...prod };
+    this.productos[indice] = { id: id, ...prod, timestamp: this.productos[indice].timestamp };
 
     await fs.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
-    return
+    return this.productos[indice]
   };
 
   async eliminar(id) {
