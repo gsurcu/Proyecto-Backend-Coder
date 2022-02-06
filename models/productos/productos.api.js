@@ -11,7 +11,7 @@ export default class ProductosApi {
   load() {
     try {
       const load = async () => {
-        this.productos = await JSON.parse(fs.readFile(this.archivo,'utf-8'));;
+        this.productos = await JSON.parse(fs.readFile(this.archivo,'utf-8'));
       };
       load();
     } catch (error) {
@@ -20,34 +20,32 @@ export default class ProductosApi {
     }
   }
 
-  listarTodos() {
-    return [...this.productos];
+  listarPorIdOTodo() {
+    if (id) {
+      return this.productos.find((producto) => producto.id === id);
+    }
+    return this.productos;
   };
 
-  listarPorId(id) {
-    const producto = this.productos.find(prod => prod.id === +id);
-    return producto;
-  };
-
-  guardar(prod) {
+  async guardar(prod) {
     const nuevoProducto = { ...prod, id: uuidv4(), timestamp: Date.now() };
     this.productos.push(nuevoProducto);
 
-    fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
     return nuevoProducto;
   };
 
-  actualizar(prod, id) {
+  async actualizar(prod, id) {
     const indice = this.productos.findIndex(prod => prod.id === +id);
     this.productos[indice] = { id: +id, ...prod };
 
-    fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
   };
 
-  eliminar(id) {
+  async eliminar(id) {
     const indice = this.productos.findIndex(prod => prod.id === +id);
     this.productos.splice(indice, 1);
     
-    fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
   }
 }

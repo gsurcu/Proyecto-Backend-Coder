@@ -4,14 +4,13 @@ const productos = new ProductosApi();
 
 const listarProductosPorIdController = (req, res) => {
   const { idProducto } = req.params;
+
   if (idProducto) {
-    const producto = productos.listarPorId(idProducto);
-    if (producto.error) return res.status(404).send(producto.error);
+    const producto = productos.getAllOrById(idProducto);
     return res.status(200).json(producto);
   }
-  const respuestaProductos =productos.listarTodos();
-  return res.status(200).json(respuestaProductos);
-  
+  const productos = productos.getAllOrById();
+  return res.status(200).json(productos);
 };
 
 const guardarProductoController = (req, res) => {

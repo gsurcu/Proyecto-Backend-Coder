@@ -1,5 +1,5 @@
 import { CarritoApi } from "../models/carrito/carrito.api";
-import ProductosApi from "../models/productos/productos.api";
+import productos from "../controllers/productos.controllers"
 
 const carrito = new CarritoApi();
 
@@ -9,34 +9,62 @@ const crearCarritoController = (req, res) => {
 };
 
 const eliminarCarritoController = (req, res) => {
-  const nuevoProducto = carrito.guardar(req.body);
-  console.log(carrito)
-  if (nuevoProducto.error) return res.status(400).send(nuevoProducto.error);
-  return res.json(nuevoProducto);
+  const {id} = req.params;
+  if (id) {
+    const carrito = carrito.delete(id);
+    if (carrito) {
+      return res
+        .status(200)
+        .json({message: `Se elimino el carrito con id: ${id}`});
+    }
+    return res.status(400).json({error: "No se encontro el carrito"});
+  }
+  return res.status(400).json({error: "No se proporciono ningun id"});
 };
 
 const listarCarritoController = (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
   if (id) {
-    const producto = carrito.listarTodos(id);
-    if (producto.error) return res.status(404).send(producto.error);
-    return res.status(200).json(producto);
+    const productos = carrito.getAllProducts(id);
+    if (productos.length > 0) {
+      return res.status(200).json(productos);
+    }
+    return res.status(400).json({error: "No se encontaron productos"});
   }
-  return res.status(200).json(respuestaProductos);
+  return res.status(400).json({error: "No se proporciono ningun id"});
 };
 
 const agregarProdCarritoController = (req, res) => {
-  const { params: { id } } = req;
-  const productoActualizado = carrito.actualizar(req.body, idProducto);
-  if (productoActualizado.error) return res.status(404).send(productoActualizado.error);
-  return res.json(productoActualizado);
+  const {id, id_prod} = req.params;
+
+  if (id && id_prod) {
+    const producto = productos.listarPorIdOTodo(id_prod);
+    if (producto) {
+      const carrito = carrito.addProducto(id, producto);
+      if (carrito) {
+        return res
+          .status(200)
+          .json({message: `Se agrego el producto con id: ${id_prod}`});
+      }
+      return res.status(400).json({error: "No se encontro el carrito"});
+    }
+    return res.status(400).json({error: "No se encontro el producto"});
+  }
+  return res.status(400).json({error: "No se proporciono ningun id"});
 };
 
 const eliminarProdCarritoController = (req, res) => {
-  const { idProducto } = req.params;
-  const prodcutoEliminado = carrito.eliminar(idProducto);
-  if (prodcutoEliminado.error) return res.status(404).send(prodcutoEliminado.error);
-  return res.json(prodcutoEliminado);
+  const {id, id_prod} = req.params;
+  if (id && id_prod) {
+    const producto = carrito.deleteProducto(id, id_prod);
+    if (producto) {
+      return res
+        .status(200)
+        .json({message: `Se elimino el producto con id: ${id_prod}`});
+    }
+    return res.status(400).json({error: "No se encontro el producto"});
+  }
+  return res.status(400).json({error: "No se proporciono ningun id"});
 };
 
 export default {
@@ -45,5 +73,4 @@ export default {
   listarCarritoController,
   agregarProdCarritoController,
   eliminarProdCarritoController,
-  carrito,
 };
