@@ -24,7 +24,9 @@ export class ProductosApi {
 
   listarPorIdOTodo(id) {
     if (id) {
-      return this.productos.find((producto) => producto.id === id);
+      const data = this.productos.find((producto) => producto.id === id);
+      console.log(id)
+      return data
     }
     return this.productos;
   };
@@ -33,21 +35,23 @@ export class ProductosApi {
     const nuevoProducto = { ...prod, id: uuidv4(), timestamp: Date.now() };
     this.productos.push(nuevoProducto);
 
-    await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    await fs.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
     return nuevoProducto;
   };
 
   async actualizar(prod, id) {
-    const indice = this.productos.findIndex(prod => prod.id === +id);
-    this.productos[indice] = { id: +id, ...prod };
+    const indice = this.productos.findIndex(prod => prod.id === id);
+    this.productos[indice] = { id: id, ...prod };
 
-    await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    await fs.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    return
   };
 
   async eliminar(id) {
-    const indice = this.productos.findIndex(prod => prod.id === +id);
+    const indice = this.productos.findIndex(prod => prod.id === id);
     this.productos.splice(indice, 1);
     
-    await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    await fs.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    return
   }
 }
