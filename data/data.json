@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "nombre": "Lapicera",
+    "descripcion": "Es una lapicer bic azul",
+    "precio": 25,
+    "codigo": "1234",
+    "imagen": "https://aldina.com.ar/wp-content/uploads/2020/08/bic-cristal-trazo-fino-azul-1.jpg",
+    "stock": 120,
+    "id": "a7eb28db-1514-47a1-9fcb-48c55237139e",
+    "timestamp": 1644168593781
+  }
+]

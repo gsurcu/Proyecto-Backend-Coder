@@ -14,13 +14,13 @@ const listarProductosPorIdController = (req, res) => {
 };
 
 const guardarProductoController = (req, res) => {
-  const { nombre, descripcion, precio, codigo, imagen, stock } = req.body;
-  console.log(req.body)
+  const { nombre, descripcion, precio, codigo, imagen, stock } = req.body || {};
+  console.log(nombre)
   if (nombre && descripcion && precio && codigo && imagen && stock ) {
     const nuevoProducto = productos.guardar( {nombre, descripcion, precio, codigo, imagen, stock} );
     return res.status(200).json(nuevoProducto);
   }
-  if (nuevoProducto.error) return res.status(400).send(nuevoProducto.error);
+  return res.status(400).json({error: "Faltan datos"});
 };
 
 const actualizarProductoController = (req, res) => {

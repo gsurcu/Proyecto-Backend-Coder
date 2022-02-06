@@ -33,10 +33,13 @@ export class ProductosApi {
 
   async guardar(prod) {
     const nuevoProducto = { ...prod, id: uuidv4(), timestamp: Date.now() };
-    this.productos.push(nuevoProducto);
-
-    await fs.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
-    return nuevoProducto;
+    if (nuevoProducto) {
+      this.productos.push(nuevoProducto);
+      
+      await fs.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+      return nuevoProducto;
+    }
+    return {}
   };
 
   async actualizar(prod, id) {
