@@ -9,7 +9,7 @@ rutasCarrito.delete('/:id', eliminarCarritoController);
 
 rutasCarrito.get('/:id/productos', listarCarritoController);
 
-rutasCarrito.post('/:id/productos', agregarProdCarritoController);
+rutasCarrito.post('/:id/productos/:id_prod', agregarProdCarritoController);
 
 rutasCarrito.delete('/:id/productos/:id_prod', eliminarProdCarritoController);
 

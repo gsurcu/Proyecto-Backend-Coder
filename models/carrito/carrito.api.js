@@ -3,22 +3,22 @@ import fs from "fs/promises"
 
 export class CarritoApi {
   constructor() {
-    this.carrito = [];
+    this.carritos = [];
     this.archivo = "./data/carrito.json";
-    this.load()
+    this.open()
   }
 
-  load() {
+  open() {
     try {
       const load = async () => {
         const data = await fs.readFile(this.archivo,'utf-8')
-        console.log(data)
-        this.productos = JSON.parse( data );
+        console.log("open")
+        this.carritos = JSON.parse( data );
       };
       load();
     } catch (error) {
       console.log(error.message);
-      this.productos = [];
+      this.carritos = [];
     }
   }
 
@@ -28,52 +28,53 @@ export class CarritoApi {
       timeStamp: Date.now(),
       productos: [],
     };
-    this.carrito.push(carrito);
-    await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+    this.carritos.push(carrito);
+    console.log("crear carrito");
+    await fs.writeFile(this.archivo,JSON.stringify(this.carritos,null, 2));
     return carrito.id;
   }
 
   listarCarrito(id) {
-    const index = this.carrito.findIndex((carrito) => carrito.id === id);
+    const index = this.carritos.findIndex((carrito) => carrito.id === id);
     if (index >= 0) {
-      return this.carrito[index].productos;
+      return this.carritos[index].productos;
     }
     return [];
   };
 
   async agregarProducto(id, producto) {
-    const index = this.carrito.findIndex((carrito) => carrito.id === id);
+    const index = this.carritos.findIndex((carrito) => carrito.id === id);
     if (index >= 0) {
-      this.carrito[index].productos.push(producto);
-      await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+      this.carritos[index].productos.push(producto);
+      await fs.writeFile(this.archivo,JSON.stringify(this.carritos,null, 2));
       return true;
     }
     return;
   };
 
   async eliminarCarrito(id) {
-    const index = this.carrito.findIndex((carrito) => carrito.id === id);
+    const index = this.carritos.findIndex((carrito) => carrito.id === id);
     if (index >= 0) {
-      const newList = this.carrito.filter((carrito) => carrito.id !== id);
-      this.carrito = newList;
-      await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+      const newList = this.carritos.filter((carrito) => carrito.id !== id);
+      this.carritos = newList;
+      await fs.writeFile(this.archivo,JSON.stringify(this.carritos,null, 2));
       return true;
     }
     return;
   };
 
   async eliminarProducto(id, idProducto) {
-    const index = this.carrito.findIndex((carrito) => carrito.id === id);
+    const index = this.carritos.findIndex((carrito) => carrito.id === id);
     if (index >= 0) {
-      const indexProducto = this.carrito[index].productos.findIndex(
+      const indexProducto = this.carritos[index].productos.findIndex(
         (producto) => producto.id === idProducto
       );
       if (indexProducto >= 0) {
-        const newList = this.carrito[index].productos.filter(
+        const newList = this.carritos[index].productos.filter(
           (producto) => producto.id !== idProducto
         );
-        this.carrito[index].productos = newList;
-        await fs.promises.writeFile(this.archivo,JSON.stringify(this.productos,null, 2));
+        this.carritos[index].productos = newList;
+        await fs.writeFile(this.archivo,JSON.stringify(this.carritos,null, 2));
         return true;
       }
       return false;
