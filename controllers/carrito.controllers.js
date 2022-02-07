@@ -23,7 +23,7 @@ const eliminarCarritoController = async (req, res) => {
 const listarCarritoController = (req, res) => {
   const {id} = req.params;
   if (id) {
-    const productos = carrito.getAllProducts(id);
+    const productos = carrito.listarCarrito(id);
     if (productos.length > 0) {
       return res.status(200).json(productos);
     }
