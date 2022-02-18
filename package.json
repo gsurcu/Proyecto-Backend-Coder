@@ -5,15 +5,19 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "start-dev": "nodemon index.js"
+    "start": "node .",
+    "start-dev": "nodemon -r dotenv/config ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "4.17.2",
+    "mongoose": "6.2.2",
     "socket.io": "4.4.1",
     "uuid": "8.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "16.0.0"
   }
 }

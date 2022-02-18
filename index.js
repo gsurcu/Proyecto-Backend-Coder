@@ -1,9 +1,11 @@
 import express from 'express';
 import { router } from './routers/app.routers.js';
-// import * as path from 'path';
+import mongoose from 'mongoose';
 
 const app = express()
-const PORT = process.env.PORT || 8080;
+const DATABASE = 'demopb18'
+
+const URI = `mongodb+srv://gab121:${process.env.DB_PASSWORD}@appprueba.jibhv.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
 
 // Middlewares
 // app.use(express.static(path.join(__dirname, 'public')));
