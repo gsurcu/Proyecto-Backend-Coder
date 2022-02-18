@@ -7,9 +7,6 @@ const DATABASE = 'demopb18'
 
 const URI = `mongodb+srv://gab121:${process.env.DB_PASSWORD}@appprueba.jibhv.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
 
-// Middlewares
-// app.use(express.static(path.join(__dirname, 'public')));
-
 // Rutas
 app.use(router);
 
