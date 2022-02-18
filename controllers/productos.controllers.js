@@ -25,16 +25,29 @@ const guardarProductoController = async (req, res) => {
 
 const actualizarProductoController = async (req, res) => {
   const { id } = req.params;
-  const productoActualizado = await productos.actualizar(req.body, id);
-  if (productoActualizado.error) return res.status(404).send(productoActualizado.error);
-  return res.status(200).json(productoActualizado);
-};
+  const {title, price, thumbnail} = req.body;
+  
+  if (title && price && thumbnail) {
+    const productoActualizado = await productos.actualizar({title, price, thumbnail}, id);
+    
+    if (productoActualizado) {
+      return res.status(200).send("Producto actualizado");
+    }
+    return res.status(404).send("Producto no encontrado");
+  };
+}
 
 const eliminarProductoController = async (req, res) => {
   const { id } = req.params;
-  const productoEliminado = await productos.eliminar(id);
-  if (productoEliminado.error) return res.status(404).send(productoEliminado.error);
-  return res.status(200).json(productoEliminado);
+  if (id) {
+    const productoEliminado = await productos.eliminar(id);
+    
+    if (productoEliminado) {
+      return res.status(200).json("Producto eliminado");
+    }
+    return res.status(404).send("No se pudo eliminar el producto");
+  }
+  return res.status(404).send("Producto no encontrado");
 };
 
 export {
