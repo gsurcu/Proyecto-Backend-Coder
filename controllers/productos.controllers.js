@@ -1,6 +1,6 @@
-import { ProductosApi } from "../models/productos/productos.api.js";
+// import { ProductosApi } from "../models/productos/productos.api.js";
 
-const productos = new ProductosApi();
+// const productos = new ProductosApi();
 
 const listarProductosPorIdController = (req, res) => {
   const { id } = req.params;
