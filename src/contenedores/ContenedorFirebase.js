@@ -1,4 +1,4 @@
-import { config } from "../../config/config";
+import { config } from "../../config/config.js";
 import admin from "firebase-admin"
 
 admin.initializeApp({

@@ -1,4 +1,4 @@
-import { config } from "../../config/config";
+import { config } from "../../config/config.js";
 import mongoose from "mongoose";
 
 await mongoose.connect(config.mongodb);

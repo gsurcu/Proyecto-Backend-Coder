@@ -1,7 +1,6 @@
-// import { CarritoApi } from "../models/carrito/carrito.api.js";
-// import { productos } from "../controllers/productos.controllers.js"
+import { carritosDao as carrito } from "../src/daos/index.js";
+import { productos } from "../controllers/productos.controllers.js"
 
-// const carrito = new CarritoApi();
 
 const crearCarritoController = async (req, res) => {
   const id = await carrito.crearCarrito();

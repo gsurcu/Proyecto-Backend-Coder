@@ -1,22 +1,19 @@
-// import { ProductosApi } from "../models/productos/productos.api.js";
-
-// const productos = new ProductosApi();
-
+import { productosDao as productos } from "../src/daos/index.js";
 const listarProductosPorIdController = (req, res) => {
   const { id } = req.params;
   if (id) {
     console.log(id)
-    const producto = productos.listarPorIdOTodo(id);
+    const producto = productos.listar(id);
     return res.status(200).json(producto);
   }
-  const producto = productos.listarPorIdOTodo();
+  const producto = productos.listarAll();
   return res.status(200).json(producto);
 };
 
 const guardarProductoController = async (req, res) => {
-  const { nombre, descripcion, precio, codigo, imagen, stock } = req.body || {};
-  if (nombre && descripcion && precio && codigo && imagen && stock ) {
-    const nuevoProducto = await productos.guardar( {nombre, descripcion, precio, codigo, imagen, stock} );
+  const { nombre, descripcion, precio, codigo, imgUrl, stock } = req.body || {};
+  if (nombre && descripcion && precio && codigo && imgUrl && stock ) {
+    const nuevoProducto = await productos.guardar( {nombre, descripcion, precio, codigo, imgUrl, stock} );
     console.log(nuevoProducto)
     return res.status(200).json(nuevoProducto);
   }
