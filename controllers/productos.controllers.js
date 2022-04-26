@@ -1,56 +1,57 @@
-import { productosDao as productos } from "../src/daos/index.js";
-const listarProductosPorIdController = (req, res) => {
+const ProductsDao = require('../models/daos/Products.dao')
+const productosApi = new ProductsDao("productos");
+
+const listarProductosPorIdController = async (req, res) => {
   const { id } = req.params;
   if (id) {
-    console.log(id)
-    const producto = productos.listar(id);
+    const producto = await productosApi.getById(id);
     return res.status(200).json(producto);
   }
-  const producto = productos.listarAll();
+  const producto = await productosApi.getAll();
   return res.status(200).json(producto);
 };
 
 const guardarProductoController = async (req, res) => {
-  const { nombre, descripcion, precio, codigo, imgUrl, stock } = req.body || {};
-  if (nombre && descripcion && precio && codigo && imgUrl && stock ) {
-    const nuevoProducto = await productos.guardar( {nombre, descripcion, precio, codigo, imgUrl, stock} );
-    console.log(nuevoProducto)
-    return res.status(200).json(nuevoProducto);
+  const {title, price, imgUrl, code, description, stock} = req.body;
+  
+  if (title && price && imgUrl && code && description && stock) {
+    const nuevoProducto = await productosApi.saveItem({title, price, imgUrl, code, description, stock } );
+    return res.status(200).redirect("/");
   }
-  return res.status(400).json({error: "Faltan datos"});
+
+  return res.status(400).send("Faltan datos");
 };
 
 const actualizarProductoController = async (req, res) => {
   const { id } = req.params;
-  const {title, price, thumbnail} = req.body;
+  const {title, price, imgUrl, code, description, stock} = req.body;
   
-  if (title && price && thumbnail) {
-    const productoActualizado = await productos.actualizar({title, price, thumbnail}, id);
-    
+  if (title && price && imgUrl) {
+    const productoActualizado = await productosApi.updateItem({title, price, imgUrl, code, description, stock}, id);
     if (productoActualizado) {
       return res.status(200).send("Producto actualizado");
     }
     return res.status(404).send("Producto no encontrado");
-  };
-}
+  }
+
+  return res.status(400).send("Faltan datos");
+};
 
 const eliminarProductoController = async (req, res) => {
   const { id } = req.params;
+  
   if (id) {
-    const productoEliminado = await productos.eliminar(id);
-    
+    const productoEliminado = await productosApi.delItem(id);
     if (productoEliminado) {
-      return res.status(200).json("Producto eliminado");
+      return res.status(200).json({mensaje: "Producto eliminado"});
     }
-    return res.status(404).send("No se pudo eliminar el producto");
+    return res.status(404).json({mensaje: "Producto no encontrado"});
   }
-  return res.status(404).send("Producto no encontrado");
 };
 
-export {
+module.exports = {
   listarProductosPorIdController,
   guardarProductoController,
   actualizarProductoController,
   eliminarProductoController,
-  productos
 };
