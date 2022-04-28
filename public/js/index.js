@@ -21,7 +21,6 @@ const sendMessage = (e) => {
 }
 
 socket.on("chat", messages => {
-  // console.log(messages)
   if (messages) {
     const userSchema = new normalizr.schema.Entity('user',{}, 
     {
@@ -40,7 +39,6 @@ socket.on("chat", messages => {
     })
 
     const denormalizedPost = normalizr.denormalize(messages.result, posts, messages.entities)
-    // console.log(denormalizedPost)
     const texto = denormalizedPost.mensajes.map( mensaje => {
       return(`
       <div>

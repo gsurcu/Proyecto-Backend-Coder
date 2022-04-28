@@ -10,7 +10,6 @@ const info = (req,res) => {
     directorio : process.cwd(),
     num_CPUs : os.cpus().length
   }
-  console.log(data)
   res.render('info', {data:data})
 }
 

@@ -35,19 +35,3 @@ coverSignUpBtn.addEventListener('click', () => {
   formWindow.classList.add('window-to-left-frame');
   formContent.classList.add('content-to-right-frame');
 });
-// const twitterAuthBtn = document.getElementsByClassName('twitter-authenticate');
-// console.log(twitterAuthBtn.length);
-// for (let i = 0; i < twitterAuthBtn.length; i++) {
-//   const element = twitterAuthBtn[i];
-//   element.addEventListener('click', () => {
-//     // console.log('Click!')
-//     window.location.href = 'api/auth/twitter/callback';
-//   });
-// }
-// const twitterAuthBtn = document.getElementById('twitter-authenticate');
-// console.log(twitterAuthBtn);
-// twitterAuthBtn.addEventListener('click', () => {
-  
-//   console.log('Click!')
-//   window.location.href = 'api/auth/twitter';
-// });

@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth');
 const infoRoute = require('./info/info.routes');
 const ProductsDao = require('../models/daos/Products.dao');
 const comprimir = require('../middlewares/comprimir');
-const PORT = process.argv[2]
+const PORT = process.env.PORT || 8081
 const router = express.Router();
 
 const productos = new ProductsDao('productos')
@@ -33,7 +33,6 @@ router.get('/profile', auth, async (req, res) => {
 
 router.get('/logout', auth, (req, res, next) => {
   req.logOut();
-  // console.log('User logued out');
   res.redirect('/');
 });
 

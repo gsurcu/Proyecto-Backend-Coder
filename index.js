@@ -9,7 +9,6 @@ const http = require('http')
 const  ChatDao = require('./models/daos/Chat.dao')
 
 const chat = new ChatDao("chat")
-// const env = require('./env.config');
 const dbConfig = require('./db/config');
 const apisRoutes = require('./routers/app.routers');
 const { errorLog } = require('./middlewares/logger');
@@ -21,7 +20,6 @@ const server = http.createServer(app)
 const io = require('socket.io')(server)
 
 // Middlewares
-// app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
@@ -68,7 +66,6 @@ if (mode && cluster.isPrimary) {
   
   const emitir = async () => {
     const lista = await chat.normalizar()
-    // console.log(lista)
     io.sockets.emit("chat", lista)
   }
   const runningServer = server.listen(PORT, async () => {

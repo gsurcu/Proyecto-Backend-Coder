@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log-in</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./normalize.css">
+</head>
+<body>
+  <main class="login-form">
+    
+    <section class="sing-in" >
+      <h4>
+        Sign in to DigiBank
+      </h4>
+      <div class="">
+        <form action="/api/auth/login" method="post" class="col s12">
+          <div class="">
+            <input
+              id="log-email"
+              type="email"
+              name="username"
+              class=""
+              required
+            />
+            <label for="log-email">Email</label>
+          </div>
+          <div class="">
+            <input
+              id="log-password"
+              type="password"
+              name="password"
+              required
+            />
+            <label for="log-password">Password</label>
+          </div>
+          <div class="">
+            <button
+              class=""
+              type="submit"
+              name="action"
+            >
+              SIGN IN
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <section class="sign-up" >
+      <h4
+        class=""
+      >
+        Create Account
+      </h4>
+      <div class="">
+        <form action="/api/auth/register" method="post" class="col s12">
+          <div class="">
+            <div class="">
+              <input
+                id="firstname"
+                type="text"
+                class=""
+                name="firstname"
+                required
+              />
+              <label for="firstname">First Name</label>
+            </div>
+            <div class="">
+              <input
+                id="lastname"
+                type="text"
+                class=""
+                name="lastname"
+                required
+              />
+              <label for="lastname">Last Name</label>
+            </div>
+            <div class="">
+              <input
+                type="text"
+                id="datepicker"
+                name="birthdate"
+                class=""
+              />
+              <label for="datepicker" class="">Birthdate</label>
+            </div>
+            <div class="">
+              <input
+                id="email"
+                type="email"
+                name="username"
+                class=" "
+                required
+              />
+              <label for="email" class="">Email</label>
+            </div>
+            <div class="">
+              <input
+                id="password"
+                type="password"
+                name="password"
+                required
+                class=""
+              />
+              <label for="password" class="">Password</label>
+            </div>
+            <div class="">
+              <button
+                class=" "
+                type="submit"
+                name="action"
+              >
+                SIGN UP
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  
+  </main>
+</body>
+</html>
