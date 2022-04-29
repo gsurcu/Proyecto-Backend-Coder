@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 
-const ADMIN_MAIL = process.env.ADMIN_MAIL ||'gespejo121@gmail.com'
+const ADMIN_MAIL = process.env.ADMIN_MAIL
 
 const ADMIN_PASS = process.env.ADMIN_PASS
 
@@ -13,20 +13,19 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const mailOptions = {
-  from: ADMIN_MAIL,
-  to: 'gabrieltomas00@hotmail.com',
+let mailOptions = {
+  to: 'gespejo121@gmail.com',
   subject: 'Mail de prueba desde Node.js',
   html: '<h1 style="color: blue;">Contenido de prueba desde <span style="color: green;">Node.js con Nodemailer</span></h1>'
 }
 
 const sendMail = async (options = mailOptions) =>{
   try {
-    const info = await transporter.sendMail(options)
+    options.from = ADMIN_MAIL;
+    const info = await transporter.sendMail(options);
     console.log(info)
   } catch (error) {
-    console.log(err)
+    console.log(error)
   }
 }
-
 module.exports = sendMail
