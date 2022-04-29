@@ -23,12 +23,9 @@ const UserSchema = new Schema({
   password: { type: String },
   telephone: { type: String },
   image: { type: String },
-  twitterId: { type: Number, unique: true },
   createdAt: { type: Date, required: true },
   updatedAt: { type: Date, required: true },
   accounts: [{ type: Schema.Types.ObjectId, ref: "Account", required: true }],
 });
-// UserSchema.index({ email: 1 });
-// UserSchema.index({ twitterId: 1 });
 
 module.exports = UserSchema;
