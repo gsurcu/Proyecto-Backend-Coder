@@ -1,6 +1,6 @@
 const twilio = require('twilio')
-const accountSid = 'ACea198a421ebfe4aade1fdca240a2f849'
-const authToken = 'c1f7f58f56ae0d0988ea916ba73a5612'
+const accountSid = process.env.ACCOUNT_SID || 'ACea198a421ebfe4aade1fdca240a2f849'
+const authToken = process.env.AUTH_TOKEN || 'c1f7f58f56ae0d0988ea916ba73a5612'
 const client = twilio(accountSid, authToken)
 
 // const SMS = async () =>{ 
@@ -20,7 +20,6 @@ const client = twilio(accountSid, authToken)
 
 const options = {
   body: 'Hola soy un WSP desde Node.js!',
-  // mediaUrl: [ 'https://www.investingmoney.biz/public/img/art/xl/18012019161021Twilio-IoT.jpg' ],
   from: 'whatsapp:+14155238886',
   to: 'whatsapp:+5491122533135',
 }
@@ -32,4 +31,7 @@ const WSP = async () =>{
     console.log(error)
   }
 }
-WSP()
+
+module.exports = {
+
+}

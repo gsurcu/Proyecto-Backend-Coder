@@ -6,7 +6,6 @@ const randomNumber = require('./random/random.routes')
 const router = express.Router();
 
 //Routes
-// router.use(infoLog)
 router.use('/auth', authRoutes);
 router.use('/productos', rutasProductos);
 

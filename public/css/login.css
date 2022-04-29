@@ -43,11 +43,19 @@ form .input-field {
 .login-background .login-form {
   position: relative;
   z-index: 2;
-  top: 10%;
+  top: 5%;
   width: 60%;
-  height: 80%;
+  height: 90%;
   border-radius: var(--base-border-radius);
   filter: drop-shadow(0 0 10rem var(--base-bg-color));
+}
+
+.login-row {
+  height: 90%; padding-top: 1rem; display: flex;
+}
+
+.login-col {
+  flex: 1;
 }
 
 .form-container {

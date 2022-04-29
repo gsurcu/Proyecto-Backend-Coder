@@ -22,6 +22,8 @@ passport.use('signup', new LocalStrategy({
       lastname: req.body.lastname,
       birthdate: req.body.birthdate,
       email: username,
+      telephone: req.body.telephone,
+      image: req.file.filename,
       password: encrypt(password),
     };
     const newUser = formatUserForDB(userObject);
