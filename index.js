@@ -8,7 +8,7 @@ const os = require('os')
 const http = require('http')
 const  ChatDao = require('./models/daos/Chat.dao')
 
-const chat = new ChatDao("chat")
+const chat = new ChatDao()
 const dbConfig = require('./db/config');
 const apisRoutes = require('./routers/app.routers');
 const { errorLog } = require('./middlewares/logger');

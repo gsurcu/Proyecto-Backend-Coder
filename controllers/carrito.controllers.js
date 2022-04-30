@@ -1,6 +1,7 @@
-import { carritosDao as carrito } from "../src/daos/index.js";
-import { productos } from "../controllers/productos.controllers.js"
-
+const CarritosDao = require('../models/daos/Carritos.dao');
+const ProductsDao = require('../models/daos/Products.dao')
+const productos = ProductsDao()
+const carrito = CarritosDao()
 
 const crearCarritoController = async (req, res) => {
   const id = await carrito.crearCarrito();

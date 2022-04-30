@@ -7,7 +7,7 @@ const comprimir = require('../middlewares/comprimir');
 const PORT = process.env.PORT || 8081
 const router = express.Router();
 
-const productos = new ProductsDao('productos')
+const productos = new ProductsDao()
 
 router.get('/', (req, res) => {
   const user = req.user;

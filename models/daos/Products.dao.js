@@ -1,6 +1,6 @@
 const { errorLog } = require('../../middlewares/logger');
 const MongoDBContainer = require('../containers/Mongodb.container');
-const ProductsSchema = require('../schemas/Products.schema');
+const ProductsSchema = require('../schemas/Product.schema');
 const collection = "productos";
 
 class ProductsDao extends MongoDBContainer {
@@ -35,4 +35,4 @@ class ProductsDao extends MongoDBContainer {
   }
 }
 
-module.exports = ProductsDao
+module.exports = ProductsDao;

@@ -1,5 +1,5 @@
 const ProductsDao = require('../models/daos/Products.dao')
-const productosApi = new ProductsDao("productos");
+const productosApi = new ProductsDao();
 
 const listarProductosPorIdController = async (req, res) => {
   const { id } = req.params;

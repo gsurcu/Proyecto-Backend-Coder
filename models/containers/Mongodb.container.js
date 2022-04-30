@@ -48,7 +48,7 @@ class MongoDBContainer {
   async createItem(resourceItem) {
     try {
       const newItem = new this.model(resourceItem);
-      await newItem.save();
+      await newItem.save();console.log(newItem);
       return newItem;
     }
     catch (err) {
