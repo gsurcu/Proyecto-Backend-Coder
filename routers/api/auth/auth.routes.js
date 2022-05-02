@@ -1,8 +1,7 @@
 const express = require('express');
 const authControllers = require('../../../controllers/auth.controllers');
 const passport = require('../../../middlewares/passport');
-const multer = require('multer')
-const path = require('path')
+const multer = require('multer');
 
 const router = express.Router();
 

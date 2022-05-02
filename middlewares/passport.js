@@ -4,6 +4,7 @@ const bCrypt = require('bcrypt');
 
 const UsersDao = require('../models/daos/Users.dao');
 const { formatUserForDB } = require('../utils/users.utils');
+const sendMail = require('../utils/nodemailer.utils');
 
 
 const User = new UsersDao();
@@ -29,7 +30,8 @@ passport.use('signup', new LocalStrategy({
     const newUser = formatUserForDB(userObject);
     User.createUser(newUser)
       .then((user) => {
-        console.log('User registration successful!');
+        sendMail({to: process.env.ADMIN_MAIL, subject: "Nuevo registro", html: JSON.stringify(user)})
+        console.log('User registration successful! ', user);
         return done(null, user);
       })
       .catch((error) => {

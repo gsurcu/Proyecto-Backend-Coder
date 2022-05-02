@@ -77,15 +77,15 @@
             <label for="title"  class="none"></label>  
             <input type="text" id="title"  name="title"  placeholder="Ingrese nombre  del producto"  required>
             <label for="price"  class="none"></label>  
-            <input type="text" id="price"  name="price"  placeholder="Ingrese precio del producto"  required>
+            <input type="number" id="price"  name="price" min="0" step="0.1"  placeholder="Ingrese precio del producto"  required>
             <label for="imgUrl"  class="none"></label>  
             <input type="text" id="imgUrl"  name="imgUrl"  placeholder="Ingrese imagen del producto"  required>
             <label for="code"  class="none"></label>  
             <input type="text" id="code"  name="code"  placeholder="Ingrese codigo del producto"  required>
             <label for="stock"  class="none"></label>  
-            <input type="text" id="stock"  name="stock"  placeholder="Ingrese stock del producto"  required>
+            <input type="number" id="stock"  name="stock" min="0" max="100" step="1"  placeholder="Ingrese stock del producto"  required>
             <label for="description"  class="none"></label>  
-            <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto"  required>
+            <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
               <div>
                 <input type="submit" value="Upload Data">
               </div>
@@ -97,12 +97,13 @@
           <h2 class="azul">Vista de Productos</h2>
           <div class="cards" id="cards">
               <% for (const prod of productos) { %>
-                <article id=<%=prod?.id%> class="container-card">
+                <article id=<%=prod?._id%> class="container-card">
                   <div class="card">
-                    <img src=<%=prod?.imagen%> alt=<%=prod?.nombre%>/>
+                    <img src=<%=prod?.imgUrl%> alt=<%=prod?.title%>/>
                     <div class="card-body">
-                      <h4 class="card-title"><%=prod?.nombre%></h4>
-                      <p class="card-text">Precio: <%=prod?.precio%></p>
+                      <h4 class="card-title"><%=prod?.title%></h4>
+                      <span class="card-text">Precio: $<%=prod?.price%></span>
+                      <span class="card-text">Stock: <%=prod?.stock%></span>
                     </div>
                   </div>
                 </article>

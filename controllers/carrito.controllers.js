@@ -1,17 +1,18 @@
 const CarritosDao = require('../models/daos/Carritos.dao');
 const ProductsDao = require('../models/daos/Products.dao')
-const productos = ProductsDao()
-const carrito = CarritosDao()
+const productos = new ProductsDao()
+const carrito = new CarritosDao()
 
 const crearCarritoController = async (req, res) => {
-  const id = await carrito.crearCarrito();
+  const user = req.user;
+  const id = await carrito.create(user._id);
   return res.status(200).json({message: `Se creo el carrito con id: ${id}`});
 };
 
 const eliminarCarritoController = async (req, res) => {
   const {id} = req.params;
   if (id) {
-    const carritoEliminado = await carrito.eliminarCarrito(id);
+    const carritoEliminado = await carrito.delItem(id)
     if (carritoEliminado) {
       return res.status(200).json({message: `Se elimino el carrito con id: ${id}`});
     }
@@ -20,10 +21,10 @@ const eliminarCarritoController = async (req, res) => {
   return res.status(400).json({error: "No se proporciono ningun id"});
 };
 
-const listarCarritoController = (req, res) => {
+const listarCarritoController = async (req, res) => {
   const {id} = req.params;
   if (id) {
-    const productos = carrito.listarCarrito(id);
+    const productos = await carrito.getById(id);
     if (productos.length > 0) {
       return res.status(200).json(productos);
     }
@@ -36,9 +37,9 @@ const agregarProdCarritoController = async (req, res) => {
   const {id, id_prod} = req.params;
 
   if (id && id_prod) {
-    const producto = productos.listarPorIdOTodo(id_prod);
+    const producto = productos.getById(id_prod);
     if (producto) {
-      const agregarProducto = await carrito.agregarProducto(id, producto);
+      const agregarProducto = await carrito.createProd(id, producto);
       if (agregarProducto) {
         return res.status(200).json({message: `Se agrego un producto al carrito con el id: ${id}. Se agrego el producto con id: ${id_prod}.`});
       }
@@ -61,7 +62,7 @@ const eliminarProdCarritoController = async (req, res) => {
   return res.status(400).json({error: "No se proporciono ningun id"});
 };
 
-export {
+module.exports = {
   crearCarritoController,
   eliminarCarritoController,
   listarCarritoController,

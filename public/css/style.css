@@ -54,6 +54,7 @@ input::placeholder {
   width: calc(100% - 8rem);
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .form form {

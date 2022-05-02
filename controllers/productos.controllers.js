@@ -15,8 +15,11 @@ const guardarProductoController = async (req, res) => {
   const {title, price, imgUrl, code, description, stock} = req.body;
   
   if (title && price && imgUrl && code && description && stock) {
-    const nuevoProducto = await productosApi.saveItem({title, price, imgUrl, code, description, stock } );
-    return res.status(200).redirect("/");
+    const nuevoProducto = await productosApi.saveItem({title, price, imgUrl, code, description, stock });
+    if (nuevoProducto) {
+      return res.status(200).send("Producto guardado");
+    }
+    return res.status(404).send("No se pudo guardar el producto")
   }
 
   return res.status(400).send("Faltan datos");
@@ -24,17 +27,17 @@ const guardarProductoController = async (req, res) => {
 
 const actualizarProductoController = async (req, res) => {
   const { id } = req.params;
-  const {title, price, imgUrl, code, description, stock} = req.body;
+  const item = req.body; console.log(item)
   
-  if (title && price && imgUrl) {
-    const productoActualizado = await productosApi.updateItem({title, price, imgUrl, code, description, stock}, id);
+  if ( Object.keys(item).length !== 0) {
+    const productoActualizado = await productosApi.updateItem( id, item );
     if (productoActualizado) {
       return res.status(200).send("Producto actualizado");
     }
     return res.status(404).send("Producto no encontrado");
   }
 
-  return res.status(400).send("Faltan datos");
+  return res.status(400).send("No hay cambios");
 };
 
 const eliminarProductoController = async (req, res) => {

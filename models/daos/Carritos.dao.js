@@ -4,64 +4,102 @@ const CarritoSchema = require('../schemas/Carrito.schema');
 const ProductsDao = require('./Products.dao');
 
 const collection = "carritos";
-const Products = ProductsDao();
+const Products = new ProductsDao();
 class CarritosDao extends MongoDBContainer {
   constructor() {
     super(collection, CarritoSchema)
   }
-  async agregarAlCarrito (item) {
+
+  async create(id) {
     try {
-      setCarrito( [...carrito, item] )
-      
-    } catch (err) {
-      errorLog(err)
+      const carrito = await this.createItem({owner: id, carrito: []});
+      // carrito.owner = user._id;
+      await carrito.save();
+      return carrito;
+    } catch (error) {
+      errorLog(error.message)
     }
   }
 
-  async removerDelCarrito (id) {
+  async createProd(id, prodId, cant) {
     try {
-      setCarrito( carrito.filter(prod => prod.id !== id ) )
+      const createProd = this.model.findOneAndUpdate(
+        { _id: id },
+        { $push: { carrito: { prod_id: prodId, cant: cant } }},
+        { returnDocument: "after" }
+      ).lean()
+      return createProd
       
-    } catch (err) {
-      errorLog(err)
+    } catch (error) {
+      errorLog(error.message)
     }
   }
 
-  async vaciarCarrito () {
+  async updateProd(id, prodId, cant) {
     try {
-      setCarrito([])
-      
-    } catch (err) {
-      errorLog(err)
+      const updateProd = await this.model.findOneAndUpdate(
+        { _id: id, "carrito.prod_id": prodId },
+        { $set: { "carrito.$.cant" : cant } },
+        { returnDocument: "after"}
+      ).lean()
+      return updateProd
+    } catch (error) {
+      errorLog(error.message)
     }
   }
 
-  async totalCantidad () {
+  async delProd (id, prodId) {
     try {
-      
-      return carrito.reduce((acc, prod) => acc + prod.cantidad, 0)
-    } catch (err) {
-      errorLog(err)
+      let doc = await this.model.findOne({_id: id }).lean();
+      const carrito = doc.carrito.filter( prod => prod.prod_id != prodId);
+      const updateProd = await this.model.findByIdAndUpdate(
+        { _id: id },
+        { $set: { carrito : carrito } },
+        { returnDocument: "after"}
+      ).lean();
+      return updateProd;
+    } catch (error) {
+      errorLog(error.message)
+    }
+  }
+  
+  // DELETE: '/:id' - Vacía un carrito y lo elimina.
+  async delItem(id) {
+    try {
+      const delItem = await this.model.findByIdAndDelete(id);
+      return delItem
+    } catch (error) {
+      errorLog(error.message)
     }
   }
 
-  async totalCompra () {
-    try {
+  // Negocio 
+  // async totalCantidad () {
+  //   try {
       
-      return carrito.reduce((acc, prod) => acc + prod.price * prod.cantidad, 0)
-    } catch (err) {
-      errorLog(err)
-    }
-  }
+  //     return carrito.reduce((acc, prod) => acc + prod.cantidad, 0)
+  //   } catch (err) {
+  //     errorLog(err)
+  //   }
+  // }
 
-  async isInCart (id) {
-    try {
+  // async totalCompra () {
+  //   try {
       
-      return carrito.some( prod => prod.id === id )
-    } catch (err) {
-      errorLog(err)
-    }
-  }
+  //     return carrito.reduce((acc, prod) => acc + prod.price * prod.cantidad, 0)
+  //   } catch (err) {
+  //     errorLog(err)
+  //   }
+  // }
+
+  // async isInCart (id, prodId) {
+  //   try {
+  //     const carrito = await this.model.findOne({ _id: id, "carrito.prod_id": prodId }).lean();
+  //     return carrito.some( prod => prod.id === prodId );
+  //   } catch (err) {
+  //     errorLog(err)
+  //   }
+  // }
 }
 
 module.exports = CarritosDao;

@@ -16,9 +16,13 @@ class ProductsDao extends MongoDBContainer {
     }
   }
   
-  async updateItem(id, item) {
+  async updateItem(id, item = {}) {
     try {
-      const updateItem = await this.model.findByIdAndUpdate(id, item)
+      const updateItem = await this.model.findOneAndUpdate(
+        { _id: id },
+        { $set: item },
+        { returnDocument: "after"}
+      ).lean()
       return updateItem
     } catch (error) {
       errorLog(error.message)
