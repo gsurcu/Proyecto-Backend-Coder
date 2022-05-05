@@ -25,12 +25,33 @@
       crossorigin="anonymous"
       defer
     ></script>
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <link rel="stylesheet" href="./css/style.css">
   </head>
   <body>
+    <header>
+      <ul class="header-list">
+        <li class="list-item none"></li>
+        <li class="list-item">
+          <div class="link"><a href="/prod">Products</a></div>
+        </li>
+        <li class="list-item">
+          <div class="link"><a href="/cart">Cart</a></div>
+        </li>
+        <li class="list-item">
+          <div class="fixed-action-btn">
+            <a 
+              class="btn-floating tooltipped red" 
+              href="/logout"
+              data-position="left"
+              data-tooltip="Logout"
+            >
+              <i class="material-icons">exit_to_app</i></a
+            >
+          </div>
+        </li>
+      </ul>
+    </header>
     <div class="profile-header">
       <div class="profile-card">
         <div class="profile-image">
@@ -70,49 +91,6 @@
     </div>
     
     <div class="container">
-      <div class="seccion">
-        <div class="form">
-          <h2 class="azul">Ingrese un producto</h2>
-          <form action='/api/productos' method="POST">
-            <label for="title"  class="none"></label>  
-            <input type="text" id="title"  name="title"  placeholder="Ingrese nombre  del producto"  required>
-            <label for="price"  class="none"></label>  
-            <input type="number" id="price"  name="price" min="0" step="0.1"  placeholder="Ingrese precio del producto"  required>
-            <label for="imgUrl"  class="none"></label>  
-            <input type="text" id="imgUrl"  name="imgUrl"  placeholder="Ingrese imagen del producto"  required>
-            <label for="code"  class="none"></label>  
-            <input type="text" id="code"  name="code"  placeholder="Ingrese codigo del producto"  required>
-            <label for="stock"  class="none"></label>  
-            <input type="number" id="stock"  name="stock" min="0" max="100" step="1"  placeholder="Ingrese stock del producto"  required>
-            <label for="description"  class="none"></label>  
-            <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
-              <div>
-                <input type="submit" value="Upload Data">
-              </div>
-          </form>
-        </div>
-  
-        <% if (productos) {%> 
-        <div class="productos">
-          <h2 class="azul">Vista de Productos</h2>
-          <div class="cards" id="cards">
-              <% for (const prod of productos) { %>
-                <article id=<%=prod?._id%> class="container-card">
-                  <div class="card">
-                    <img src=<%=prod?.imgUrl%> alt=<%=prod?.title%>/>
-                    <div class="card-body">
-                      <h4 class="card-title"><%=prod?.title%></h4>
-                      <span class="card-text">Precio: $<%=prod?.price%></span>
-                      <span class="card-text">Stock: <%=prod?.stock%></span>
-                    </div>
-                  </div>
-                </article>
-              <% } %>
-            </div>
-          </div>
-          <% } %>
-      </div>
-  
       <div id="appChat" class="seccion">
         <h2 class="azul">Centro de mensajes</h2>
         <h3 class="azul">Usuario: <span id="idUser"><%=sessionUser.email%></span></h3>
@@ -123,19 +101,9 @@
         </div>
       </div>
     </div>
-    <div class="fixed-action-btn">
-      <a 
-        class="btn-floating tooltipped red" 
-        href="/logout"
-        data-position="left"
-        data-tooltip="Logout"
-      >
-        <i class="material-icons">exit_to_app</i></a
-      >
-    </div>
+    
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
-    <script src="/js/index.js"></script>
-    <!-- <script src="/js/profile.js"></script> -->
+    <script src="/js/index.js"></script>  
   </body>
 </html>

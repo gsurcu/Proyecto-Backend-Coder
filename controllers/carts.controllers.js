@@ -1,18 +1,18 @@
-const CarritosDao = require('../models/daos/Carritos.dao');
+const CarritosDao = require('../models/daos/Carts.dao');
 const ProductsDao = require('../models/daos/Products.dao')
 const productos = new ProductsDao()
 const carrito = new CarritosDao()
 
 const crearCarritoController = async (req, res) => {
   const user = req.user;
-  const id = await carrito.create(user._id);
+  const id = await carrito.createCart(user._id);
   return res.status(200).json({message: `Se creo el carrito con id: ${id}`});
 };
 
 const eliminarCarritoController = async (req, res) => {
   const {id} = req.params;
   if (id) {
-    const carritoEliminado = await carrito.delItem(id)
+    const carritoEliminado = await carrito.delCart(id)
     if (carritoEliminado) {
       return res.status(200).json({message: `Se elimino el carrito con id: ${id}`});
     }
@@ -53,7 +53,7 @@ const agregarProdCarritoController = async (req, res) => {
 const eliminarProdCarritoController = async (req, res) => {
   const {id, id_prod} = req.params;
   if (id && id_prod) {
-    const producto = await carrito.eliminarProducto(id, id_prod);
+    const producto = await carrito.delProd(id, id_prod);
     if (producto) {
       return res.status(200).json({message: `Se elimino el producto con id: ${id_prod}`});
     }

@@ -12,6 +12,18 @@ h6 {
   font-family: 'Secular One', sans-serif;
 }
 
+.alert {
+  font-size: 12px;
+  margin: .2rem 0 .8rem;
+}
+
+.alert.alert-error {
+  color: #f00;
+}
+.alert.alert-info {
+  color: #0b0;
+}
+
 form .input-field {
   margin: 0;
 }

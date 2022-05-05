@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 h2 {
   margin: 1rem 0;
 }
@@ -5,6 +9,38 @@ h2 {
 input::placeholder {
   color: #0006;
 }
+
+li {
+  list-style: none;
+}
+
+header {
+  width: 100%;
+  border-bottom: 1px solid #000;
+  margin-bottom: 1rem;
+}
+
+.header-list {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0;
+  margin: auto;
+  min-height: 2rem;
+  max-width: 90%;
+  align-items: center;
+  text-align: center;
+}
+
+.list-item {
+  font-size: 20px;
+  flex: 1;
+}
+
+.link a {
+  text-decoration: none;
+  color: #000;
+}
+
 .azul {
   color: #00f;
 }
@@ -65,4 +101,8 @@ input::placeholder {
 .form input, .form button {
   margin: .4rem 0;
   padding: .2rem .45rem;
+}
+
+.none {
+  display: none;
 }

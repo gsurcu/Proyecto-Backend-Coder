@@ -1,6 +1,6 @@
 const { errorLog } = require('../../middlewares/logger');
 const MongoDBContainer = require('../containers/Mongodb.container');
-const CarritoSchema = require('../schemas/Carrito.schema');
+const CarritoSchema = require('../schemas/Cart.schema');
 const ProductsDao = require('./Products.dao');
 
 const collection = "carritos";
@@ -10,22 +10,39 @@ class CarritosDao extends MongoDBContainer {
     super(collection, CarritoSchema)
   }
 
-  async create(id) {
+  async createCart(id) {
     try {
-      const carrito = await this.createItem({owner: id, carrito: []});
-      // carrito.owner = user._id;
-      await carrito.save();
-      return carrito;
+      const cart = await this.createItem({owner: id, cart: [], send: false});
+      await cart.save();
+      return cart;
     } catch (error) {
-      errorLog(error.message)
+      errorLog(error.message);
     }
   }
 
-  async createProd(id, prodId, cant) {
+  async getCart(id) {
+    try {
+      const cart = await this.model.findOne({ owner: id, send: false });
+      return cart;
+    } catch (error) {
+      errorLog(error.message);
+    }
+  }
+
+  async createProd(id, cant, prod) {
     try {
       const createProd = this.model.findOneAndUpdate(
         { _id: id },
-        { $push: { carrito: { prod_id: prodId, cant: cant } }},
+        { $push: { 
+            cart: { 
+              cant: cant,
+              title: prod.title, 
+              imgUrl : prod.imgUrl, 
+              price: prod.price, 
+              prod_id: prod._id, 
+            } 
+          }
+        },
         { returnDocument: "after" }
       ).lean()
       return createProd
@@ -48,13 +65,13 @@ class CarritosDao extends MongoDBContainer {
     }
   }
 
-  async delProd (id, prodId) {
+  async delProd(id, prodId) {
     try {
       let doc = await this.model.findOne({_id: id }).lean();
       const carrito = doc.carrito.filter( prod => prod.prod_id != prodId);
-      const updateProd = await this.model.findByIdAndUpdate(
+      const updateProd = await this.model.findByOneAndUpdate(
         { _id: id },
-        { $set: { carrito : carrito } },
+        { $set: { cart: carrito } },
         { returnDocument: "after"}
       ).lean();
       return updateProd;
@@ -62,9 +79,21 @@ class CarritosDao extends MongoDBContainer {
       errorLog(error.message)
     }
   }
+
+  async sendCart() {
+    try {
+      const sendCart = await this.model.findOneAndUpdate(
+        { _id: id },
+        { $set: { send: true } },
+        { returnDocument: "after"}
+      ).lean();
+      return sendCart;
+    } catch (error) {
+      errorLog(error.message)
+    }
+  }
   
-  // DELETE: '/:id' - Vacía un carrito y lo elimina.
-  async delItem(id) {
+  async delCart(id) {
     try {
       const delItem = await this.model.findByIdAndDelete(id);
       return delItem
@@ -72,34 +101,6 @@ class CarritosDao extends MongoDBContainer {
       errorLog(error.message)
     }
   }
-
-  // Negocio 
-  // async totalCantidad () {
-  //   try {
-      
-  //     return carrito.reduce((acc, prod) => acc + prod.cantidad, 0)
-  //   } catch (err) {
-  //     errorLog(err)
-  //   }
-  // }
-
-  // async totalCompra () {
-  //   try {
-      
-  //     return carrito.reduce((acc, prod) => acc + prod.price * prod.cantidad, 0)
-  //   } catch (err) {
-  //     errorLog(err)
-  //   }
-  // }
-
-  // async isInCart (id, prodId) {
-  //   try {
-  //     const carrito = await this.model.findOne({ _id: id, "carrito.prod_id": prodId }).lean();
-  //     return carrito.some( prod => prod.id === prodId );
-  //   } catch (err) {
-  //     errorLog(err)
-  //   }
-  // }
 }
 
 module.exports = CarritosDao;

@@ -1,6 +1,6 @@
 const express = require('express');
 const productsRoutes = require('./productos/productos.routes');
-const carritoRoutes = require('./carrito/carrito.routes');
+const carritoRoutes = require('./cart/cart.routes');
 const authRoutes = require('./auth/auth.routes');
 const randomNumber = require('./random/random.routes');
 const router = express.Router();

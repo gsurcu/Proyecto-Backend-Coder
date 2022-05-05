@@ -1,5 +1,5 @@
 const express = require('express')
-const { crearCarritoController, eliminarCarritoController, listarCarritoController, agregarProdCarritoController, eliminarProdCarritoController } = require('../../../controllers/carrito.controllers.js');
+const { crearCarritoController, eliminarCarritoController, listarCarritoController, agregarProdCarritoController, eliminarProdCarritoController } = require('../../../controllers/carts.controllers.js');
 
 const router = express.Router();
 

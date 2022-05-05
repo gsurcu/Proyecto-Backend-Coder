@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="css/profile.css"
+      media="screen,projection"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/9c66029b87.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <title>Productos</title>
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+<body>
+  <header>
+    <ul class="header-list">
+      <li class="list-item none"></li>
+      <li class="list-item">
+        <div class="link"><a href="/prod">Products</a></div>
+      </li>
+      <li class="list-item">
+        <div class="link"><a href="/cart">Cart</a></div>
+      </li>
+      <li class="list-item">
+        <div class="fixed-action-btn">
+          <a 
+            class="btn-floating tooltipped red" 
+            href="/logout"
+            data-position="left"
+            data-tooltip="Logout"
+          >
+            <i class="material-icons">exit_to_app</i></a
+          >
+        </div>
+      </li>
+    </ul>
+  </header>
+  
+  <div class="seccion">
+    <div class="form create">
+      <h2 class="azul">Ingrese un producto</h2>
+      <form action='/api/productos' method="POST">
+        <label for="title"  class="none"></label>  
+        <input type="text" id="title"  name="title"  placeholder="Ingrese nombre  del producto"  required>
+        <label for="price"  class="none"></label>  
+        <input type="number" id="price"  name="price" min="0" step="0.1"  placeholder="Ingrese precio del producto"  required>
+        <label for="imgUrl"  class="none"></label>  
+        <input type="text" id="imgUrl"  name="imgUrl"  placeholder="Ingrese imagen del producto"  required>
+        <label for="code"  class="none"></label>  
+        <input type="text" id="code"  name="code"  placeholder="Ingrese codigo del producto"  required>
+        <label for="stock"  class="none"></label>  
+        <input type="number" id="stock"  name="stock" min="0" max="100" step="1"  placeholder="Ingrese stock del producto"  required>
+        <label for="description"  class="none"></label>  
+        <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
+          <div>
+            <input type="submit" value="Upload Data">
+          </div>
+      </form>
+    </div>
+
+    <div class="form update">
+      <h2 class="azul">Actualizar producto</h2>
+      <form action='/api/productos/:id' method="POST">
+        <label for="prodId" class="none"></label>
+        <select name="prodId" id="prodId">
+          <option value="">--Please choose an option--</option>
+            <% for (const prod of productos) { %>
+              <option value=<%= prod._id %> ><%= prod.title %> </option>
+            <% } %> 
+        </select>
+        <select name="prod" id="prod"></select>
+        <label for="title"  class="none"></label>  
+        <input type="text" id="title"  name="title"  placeholder="Ingrese nombre  del producto"  required>
+        <label for="price"  class="none"></label>  
+        <input type="number" id="price"  name="price" min="0" step="0.1"  placeholder="Ingrese precio del producto"  required>
+        <label for="imgUrl"  class="none"></label>  
+        <input type="text" id="imgUrl"  name="imgUrl"  placeholder="Ingrese imagen del producto"  required>
+        <label for="code"  class="none"></label>  
+        <input type="text" id="code"  name="code"  placeholder="Ingrese codigo del producto"  required>
+        <label for="stock"  class="none"></label>  
+        <input type="number" id="stock"  name="stock" min="0" max="100" step="1"  placeholder="Ingrese stock del producto"  required>
+        <label for="description"  class="none"></label>  
+        <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
+          <div>
+            <input type="submit" value="Upload Data">
+          </div>
+      </form>
+    </div>
+
+    <div class="form delete">
+      <h2>Eliminar producto</h2>
+      <form action=""></form>
+    </div>
+
+    <% if (productos) {%> 
+      <div class="productos">
+        <h2 class="azul">Vista de Productos</h2>
+        <div class="cards" id="cards">
+          <% for (const prod of productos) { %>
+            <article id=<%=prod._id%> class="container-card">
+              <div class="card">
+                <img src=<%=prod.imgUrl%> alt=<%=prod.title%>/>
+                <div class="card-body">
+                  <h4 class="card-title"><%=prod.title%></h4>
+                  <span class="card-text">Precio: $<%=prod.price%></span>
+                  <span class="card-text">Stock: <%=prod.stock%></span>
+                </div>
+              </div>
+            </article>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+</body>
+</html>

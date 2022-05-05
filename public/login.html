@@ -28,6 +28,10 @@
       href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+    />
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DigiBank</title>
@@ -99,7 +103,7 @@
                 Create Account
               </h4>
               <div class="row">
-                <form action="/api/auth/register" method="post" class="col s12" enctype="multipart/form-data">
+                <form action="/api/auth/register" method="post" class="col s12" enctype="multipart/form-data" onsubmit="process(event)">
                   <div class="row">
                     <div class="input-field col s6">
                       <input
@@ -147,20 +151,21 @@
                     </div>
                     <div class="input-field col s12">
                       <input
-                        id="telephone"
-                        type="text"
-                        class="validate p-left"
-                        name="telephone"
+                        id="phone"
+                        type="tel"
+                        class="validate"
+                        name="phone"
                         required
                       />
-                      <label for="telephone" class="pos-left">Telephone</label>
+                      <label for="phone" class="pos-left"></label>
                       <span
                         class="helper-text"
                         data-error="This field is required"
-                      ></span>
-                      <i class="material-icons prefix teal-text text-lighten-2"
-                        >phone</i
-                      >
+                        >
+                        <div class="alert alert-info" style="display: none;"></div>
+                        <div class="alert alert-error" style="display: none"></div>
+                      </span>
+                      <input type="text" id="telephone" name="telephone" style="display: none;" required>
                     </div>
                     <div class="input-field col s12">
                       <input
@@ -301,7 +306,49 @@
       </div>
     </div>
     <!--JavaScript at end of body for optimized loading-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script type="text/javascript" src="./js/materialize.min.js"></script>
     <script type="text/javascript" src="./js//login.js"></script>
   </body>
+  <script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+      utilsScript:
+      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+    const info = document.querySelector(".alert-info");
+    const error = document.querySelector(".alert-error");
+    
+    phoneInputField.addEventListener('change', e => {
+      // const phonePrefijo = document.querySelector('.iti__selected-flag');
+      // const phone = '+' + phonePrefijo.title.split('+')[1] + phoneInputField.value;
+      // const telephoneInput = document.getElementById('telephone');
+      // const phoneNumber = phoneInput.getNumber();
+      // telephoneInput.value = phoneNumber;
+      process(e);
+    })
+    function process(event) {
+
+      const phoneNumber = phoneInput.getNumber();
+
+      info.style.display = "none";
+      error.style.display = "none";
+
+      if (phoneInput.isValidNumber()) {
+        info.style.display = "";
+        info.innerHTML = "Phone number is valid" 
+        console.log(`Phone number in E.164 format: <strong>${phoneNumber}</strong>`);
+        const telephoneInput = document.getElementById('telephone');
+        telephoneInput.value = phoneNumber;
+        setTimeout(()=> {
+          info.style.visibility = "hidden";
+        }, 2000)
+      } else {
+        event.preventDefault();
+        error.style.display = "";
+        error.innerHTML = `Invalid phone number.`;
+        info.style.visibility = ""
+      }
+    }
+  </script>
 </html>

@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const { formatErrorObject } = require('../../utils/api.utils');
 const constants = require('../../constants/api.constants');
+const { errorLog } = require('../../middlewares/logger')
 
 const { 
   STATUS: { 
@@ -24,7 +25,7 @@ class MongoDBContainer {
     }
     catch(error) {
       const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
-      throw new Error(JSON.stringify(newError));
+      errorLog(JSON.stringify(newError));
     }
   }
 
@@ -34,14 +35,14 @@ class MongoDBContainer {
       if (!document) {
         const errorMessage = `Resource with id ${id} does not exist in our records`;
         const newError = formatErrorObject(NOT_FOUND.tag, errorMessage);
-        throw new Error(JSON.stringify(newError));
+        errorLog(JSON.stringify(newError));
       } else {
         return document;
       }
     }
     catch(error) {
       const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
-      throw new Error(JSON.stringify(newError));
+      errorLog(JSON.stringify(newError));
     }
   }
 
@@ -51,9 +52,9 @@ class MongoDBContainer {
       await newItem.save();console.log(newItem);
       return newItem;
     }
-    catch (err) {
-      const newError = formatErrorObject(INTERNAL_ERROR.tag, err.message);
-      throw new Error(JSON.stringify(newError));
+    catch (error) {
+      const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+      errorLog(JSON.stringify(newError));
     }
   }
 }
