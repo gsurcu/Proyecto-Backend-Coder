@@ -70,43 +70,72 @@
         <label for="description"  class="none"></label>  
         <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
           <div>
-            <input type="submit" value="Upload Data">
+            <input type="submit" id="btn-create" value="Upload Data">
           </div>
       </form>
     </div>
 
     <div class="form update">
       <h2 class="azul">Actualizar producto</h2>
-      <form action='/api/productos/:id' method="POST">
-        <label for="prodId" class="none"></label>
-        <select name="prodId" id="prodId">
-          <option value="">--Please choose an option--</option>
-            <% for (const prod of productos) { %>
-              <option value=<%= prod._id %> ><%= prod.title %> </option>
-            <% } %> 
-        </select>
-        <select name="prod" id="prod"></select>
-        <label for="title"  class="none"></label>  
-        <input type="text" id="title"  name="title"  placeholder="Ingrese nombre  del producto"  required>
-        <label for="price"  class="none"></label>  
-        <input type="number" id="price"  name="price" min="0" step="0.1"  placeholder="Ingrese precio del producto"  required>
-        <label for="imgUrl"  class="none"></label>  
-        <input type="text" id="imgUrl"  name="imgUrl"  placeholder="Ingrese imagen del producto"  required>
-        <label for="code"  class="none"></label>  
-        <input type="text" id="code"  name="code"  placeholder="Ingrese codigo del producto"  required>
-        <label for="stock"  class="none"></label>  
-        <input type="number" id="stock"  name="stock" min="0" max="100" step="1"  placeholder="Ingrese stock del producto"  required>
-        <label for="description"  class="none"></label>  
-        <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
+      <form id="form-update">
+        <div class="" id="elegir-prodId">
+          <h3>Elegir el producto</h3>
+          <label for="prodId" class="none"></label>
+          <select name="prodId" id="prodId">
+            <option value="">--Please choose an option--</option>
+              <% for (const prod of productos) { %>
+                <option value=<%= prod._id %> ><%= prod.title %> </option>
+              <% } %> 
+          </select>
+          <input type="button" onclick="seleccionar()" value="Seleccionar"></input>
+        </div>
+        <div class="none" id="elegido-prodId">
+          <h3>Producto Seleccionado: <span id="p"></span></h3>
+          <input type="button" onclick="deseleccionar()" value="Elegir otro producto"></input>
+        </div>
+        <div class="none" id="prop-prodId">
+          <!-- <select name="prod" id="prod"></select> -->
+          <label for="title"  class="none"></label>  
+          <input type="text" id="title"  name="title"  placeholder="Ingrese nombre  del producto">
+          <label for="price"  class="none"></label>  
+          <input type="number" id="price"  name="price" min="0" step="0.1"  placeholder="Ingrese precio del producto">
+          <label for="imgUrl"  class="none"></label>  
+          <input type="text" id="imgUrl"  name="imgUrl"  placeholder="Ingrese imagen del producto">
+          <label for="code"  class="none"></label>  
+          <input type="text" id="code"  name="code"  placeholder="Ingrese codigo del producto">
+          <label for="stock"  class="none"></label>  
+          <input type="number" id="stock"  name="stock" min="0" max="100" step="1"  placeholder="Ingrese stock del producto">
+          <label for="description"  class="none"></label>  
+          <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
           <div>
-            <input type="submit" value="Upload Data">
+            <input id="btn-update" type="button" value="Update Data">
           </div>
+        </div>
       </form>
     </div>
 
     <div class="form delete">
       <h2>Eliminar producto</h2>
-      <form action=""></form>
+      <form id="form-delete">
+        <div class="" id="elegir-delId">
+          <h3>Elegir el producto</h3>
+          <label for="delId" class="none"></label>
+          <select name="delId" id="delId">
+            <option value="">--Please choose an option--</option>
+              <% for (const prod of productos) { %>
+                <option value=<%= prod._id %> ><%= prod.title %> </option>
+              <% } %> 
+          </select>
+          <!-- <button onclick="seleccionar()">Seleccionar</button> -->
+        </div>
+        <div class="none" id="elegido-delId">
+          <h3>Producto Seleccionado: <span id="p"></span></h3>
+          <!-- <button onclick="deseleccionar()">Elegir otro producto</button> -->
+        </div>
+        <div>
+          <input id="btn-delete" type="button" value="Delete Data">
+        </div>
+      </form>
     </div>
 
     <% if (productos) {%> 
@@ -129,6 +158,26 @@
       </div>
     <% } %>
   </div>
+  <script src="/js/prod.js"></script>
+  <script>
+    const prodId = document.getElementById('prodId')
+    const elegirProdId = document.getElementById('elegir-prodId')
+    const elegidoProdId = document.getElementById('elegido-prodId')
+    const propProdId = document.getElementById('prop-prodId')
+    const p = document.getElementById('p')
 
+    const seleccionar = () => {
+      p.innerHTML = prodId.value;
+      elegirProdId.classList.add("none")
+      elegidoProdId.classList.remove("none")
+      propProdId.classList.remove("none")
+    }
+
+    const deseleccionar = () => {
+      elegirProdId.classList.remove("none")
+      elegidoProdId.classList.add("none")
+      propProdId.classList.add("none")
+    }
+  </script>
 </body>
 </html>
