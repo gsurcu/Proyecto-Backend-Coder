@@ -28,21 +28,6 @@ Deberás entregar el avance de tu aplicación eCommerce Backend correspondiente 
 - Utilizar alguno de los loggers ya vistos y así reemplazar todos los mensajes a consola por logs eficientes hacia la misma consola. En el caso de errores moderados ó graves el log tendrá además como destino un archivo elegido.
 - Realizar una prueba de performance en modo local, con y sin cluster, utilizando Artillery en el endpoint del listado de productos (con el usuario vez logueado). Verificar los resultados.
 
-## Pasos
-
-1. - auth.routes.js, auth.controllers.js, passport.js, User.schema.js, Users.dao.js, login.html => ejs
-   - Users.dao.js
-
-2. - profile.ejs, Products.dao.js, extra.routers.js, Carrito.dao.js
-   - passport.js (signup), nodemailer.utils.js
-
-3. - profile.ejs, carrito.routes.js
-   - carrito.routes.js
-   - carrito.routes.js, nodemailer.utils.js, twilio.utils.js
-   - twilio.utils.js, ???
-
-- Artillery, Winston
-
 ## Heroku
 
 Este sitio esta desplegado en [Heroku](https://coder-proyecto.herokuapp.com/)

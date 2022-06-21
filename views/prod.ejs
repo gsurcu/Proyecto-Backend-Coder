@@ -77,62 +77,57 @@
 
     <div class="form update">
       <h2 class="azul">Actualizar producto</h2>
-      <form id="form-update">
-        <div class="" id="elegir-prodId">
+      <form id="update-form">
+        <div class="form-prod" id="update-prod">
           <h3>Elegir el producto</h3>
           <label for="prodId" class="none"></label>
-          <select name="prodId" id="prodId">
-            <option value="">--Please choose an option--</option>
+          <select class="form-select" name="prodId" id="prodId">
+            <option value="">-Please choose an option--</option>
               <% for (const prod of productos) { %>
                 <option value=<%= prod._id %> ><%= prod.title %> </option>
               <% } %> 
           </select>
-          <input type="button" onclick="seleccionar()" value="Seleccionar"></input>
+          <input type="button" class="select" value="Seleccionar"></input>
         </div>
-        <div class="none" id="elegido-prodId">
-          <h3>Producto Seleccionado: <span id="p"></span></h3>
-          <input type="button" onclick="deseleccionar()" value="Elegir otro producto"></input>
+        <div class="none form-titulo" id="update-titulo">
+          <h3>Producto Seleccionado: <span id="update-id"></span></h3>
+          <input type="button" class="unselect" value="Elegir otro producto"></input>
         </div>
-        <div class="none" id="prop-prodId">
-          <!-- <select name="prod" id="prod"></select> -->
-          <label for="title"  class="none"></label>  
-          <input type="text" id="title"  name="title"  placeholder="Ingrese nombre  del producto">
-          <label for="price"  class="none"></label>  
-          <input type="number" id="price"  name="price" min="0" step="0.1"  placeholder="Ingrese precio del producto">
-          <label for="imgUrl"  class="none"></label>  
-          <input type="text" id="imgUrl"  name="imgUrl"  placeholder="Ingrese imagen del producto">
-          <label for="code"  class="none"></label>  
-          <input type="text" id="code"  name="code"  placeholder="Ingrese codigo del producto">
-          <label for="stock"  class="none"></label>  
-          <input type="number" id="stock"  name="stock" min="0" max="100" step="1"  placeholder="Ingrese stock del producto">
-          <label for="description"  class="none"></label>  
-          <input type="text" id="description"  name="description"  placeholder="Ingrese descripcion del producto">
-          <div>
-            <input id="btn-update" type="button" value="Update Data">
-          </div>
+        <div class="none" id="update-prop">
+          <select name="prod" id="propProd">
+            <% for (const prop in productos[0]) { %>
+              <% if (prop == "_id" || prop == "timeStamp") { continue } %>
+              <option value=<%=prop%>><%=prop%></option>
+            <% } %> 
+          </select>
+          <input type="button" class="update-add-prop" value="Agregar propiedad">  
+        </div>
+        <div class="none" id="update-props"></div>
+        <div class="form-button" id="update-button" class="none">
+          <input id="btn-update" type="button" value="Update Data">
         </div>
       </form>
     </div>
 
     <div class="form delete">
       <h2>Eliminar producto</h2>
-      <form id="form-delete">
-        <div class="" id="elegir-delId">
+      <form id="delete-form">
+        <div class="form-prod" id="delete-prod">
           <h3>Elegir el producto</h3>
           <label for="delId" class="none"></label>
-          <select name="delId" id="delId">
-            <option value="">--Please choose an option--</option>
+          <select class="form-select" name="delId" id="delId">
+            <option value="">-Please choose an option--</option>
               <% for (const prod of productos) { %>
                 <option value=<%= prod._id %> ><%= prod.title %> </option>
               <% } %> 
           </select>
-          <!-- <button onclick="seleccionar()">Seleccionar</button> -->
+          <input type="button" class="select" value="Seleccionar"></input>
         </div>
-        <div class="none" id="elegido-delId">
-          <h3>Producto Seleccionado: <span id="p"></span></h3>
-          <!-- <button onclick="deseleccionar()">Elegir otro producto</button> -->
+        <div class="none form-titulo" id="delete-titulo">
+          <h3>Producto Seleccionado: <span id="delete-id"></span></h3>
+          <input type="button" class="unselect" value="Elegir otro producto"></input>
         </div>
-        <div>
+        <div class="form-button" id="delete-button" class="none">
           <input id="btn-delete" type="button" value="Delete Data">
         </div>
       </form>
@@ -143,13 +138,14 @@
         <h2 class="azul">Vista de Productos</h2>
         <div class="cards" id="cards">
           <% for (const prod of productos) { %>
+            <% if(prod.imgUrl == '' || prod.title == '' || prod.price == '' || prod.stock == ''){continue} %> 
             <article id=<%=prod._id%> class="container-card">
               <div class="card">
                 <img src=<%=prod.imgUrl%> alt=<%=prod.title%>/>
                 <div class="card-body">
                   <h4 class="card-title"><%=prod.title%></h4>
-                  <span class="card-text">Precio: $<%=prod.price%></span>
-                  <span class="card-text">Stock: <%=prod.stock%></span>
+                  <div class="card-text">Precio: $<%=prod.price%></div>
+                  <div class="card-text">Stock: <%=prod.stock%></div>
                 </div>
               </div>
             </article>
@@ -158,26 +154,29 @@
       </div>
     <% } %>
   </div>
+
+  <template id="templateCard">
+    <article id='' class="container-card">
+      <div class="card">
+        <img src='' alt=''/>
+        <div class="card-body">
+          <h4 class="card-title"></h4>
+          <div class="card-text">Precio: <span></span></div>
+          <div class="card-text">Stock: <span></span></div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <template id="templateProp">
+    <div class="container-prop">
+      <label for=""></label>
+      <input type="text" class="prop" id="" name="" placeholder="">
+      <input type="button" class="update-del-prop" value="Quitar propiedad">
+    </div>
+  </template>
+
   <script src="/js/prod.js"></script>
-  <script>
-    const prodId = document.getElementById('prodId')
-    const elegirProdId = document.getElementById('elegir-prodId')
-    const elegidoProdId = document.getElementById('elegido-prodId')
-    const propProdId = document.getElementById('prop-prodId')
-    const p = document.getElementById('p')
-
-    const seleccionar = () => {
-      p.innerHTML = prodId.value;
-      elegirProdId.classList.add("none")
-      elegidoProdId.classList.remove("none")
-      propProdId.classList.remove("none")
-    }
-
-    const deseleccionar = () => {
-      elegirProdId.classList.remove("none")
-      elegidoProdId.classList.add("none")
-      propProdId.classList.add("none")
-    }
-  </script>
+  <script src="/js/prodFetch.js"></script>
 </body>
 </html>

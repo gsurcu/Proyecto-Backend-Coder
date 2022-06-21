@@ -1,37 +1,113 @@
-document.getElementById("create").addEventListener("click", () => createProducto())
-document.getElementById("update").addEventListener("click", () => updateProducto())
-document.getElementById("delete").addEventListener("click", () => deleteProducto())
+const cards = document.getElementById('cards')
+const items = document.getElementById('items')
+const footer = document.getElementById('footer')
+const templateCard = document.getElementById('template-card').content
+const templateFooter = document.getElementById('template-footer').content
+const templateCarrito = document.getElementById('template-carrito').content
+const fragment = document.createDocumentFragment()
+let carrito = {}
 
-const getDataById = (id = '') => new URLSearchParams(new FormData(document.getElementById(id)));
+cards.addEventListener('click', e => { addCarrito(e) });
+items.addEventListener('click', e => { btnAumentarDisminuir(e) })
+const addCarrito = e => {
+  // console.log(e.target)
+    if (e.target.classList.contains('btn-dark')) {
+      // console.log(e.target.parentElement)
+      setCarrito(e.target.parentElement)
+    }
+    e.stopPropagation()
+}
 
-const createProducto = () => {
-  const datos = getDataById("formulario1");console.log(datos)
-  let headers = {
-    method: "POST",
-    body: datos,
-    // headers: {"Content-type": "application/json"}
+const setCarrito = item => {
+    // console.log(item)
+    const producto = {
+        title: item.querySelector('h5').textContent,
+        precio: item.querySelector('p').textContent,
+        id: item.querySelector('button').dataset.id,
+        cantidad: 1
+    }
+    // console.log(producto)
+    if (carrito.hasOwnProperty(producto.id)) {
+        producto.cantidad = carrito[producto.id].cantidad + 1
+    }
+
+    carrito[producto.id] = { ...producto }
+    
+    pintarCarrito()
+}
+
+const pintarCarrito = () => {
+  items.innerHTML = ''
+
+  Object.values(carrito).forEach(producto => {
+    templateCarrito.querySelector('th').textContent = producto.id
+    templateCarrito.querySelectorAll('td')[0].textContent = producto.title
+    templateCarrito.querySelectorAll('td')[1].textContent = producto.cantidad
+    templateCarrito.querySelector('span').textContent = producto.precio * producto.cantidad
+    
+    //botones
+    templateCarrito.querySelector('.btn-info').dataset.id = producto.id
+    templateCarrito.querySelector('.btn-danger').dataset.id = producto.id
+
+    const clone = templateCarrito.cloneNode(true)
+    fragment.appendChild(clone)
+  })
+  items.appendChild(fragment)
+
+  pintarFooter()
+
+  localStorage.setItem('carrito', JSON.stringify(carrito))
+}
+
+const pintarFooter = () => {
+  footer.innerHTML = ''
+  
+  if (Object.keys(carrito).length === 0) {
+    footer.innerHTML = `
+    <th scope="row" colspan="5">Carrito vacío con innerHTML</th>
+    `
+    return
   }
   
-  fetch(`https://reqres.in/api/users`, headers)
-  .then(res=>res.json())
-  .then(res=>console.log(res));
+  // sumar cantidad y sumar totales
+  const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
+  const nPrecio = Object.values(carrito).reduce((acc,   {cantidad, precio}) => acc + cantidad * precio ,0)
+  // console.log(nPrecio)
+
+  templateFooter.querySelectorAll('td')[0].textContent = nCantidad
+  templateFooter.querySelector('span').textContent = nPrecio
+
+  const clone = templateFooter.cloneNode(true)
+  fragment.appendChild(clone)
+
+  footer.appendChild(fragment)
+
+  const boton = document.querySelector('#vaciar-carrito')
+  boton.addEventListener('click', () => {
+      carrito = {}
+      pintarCarrito()
+  })
+
 }
 
-const updateProducto = () => {
-  const datos = getDataById("formulario2");
+const btnAumentarDisminuir = e => {
+    // console.log(e.target.classList.contains('btn-info'))
+    if (e.target.classList.contains('btn-info')) {
+        const producto = carrito[e.target.dataset.id]
+        producto.cantidad++
+        carrito[e.target.dataset.id] = { ...producto }
+        pintarCarrito()
+    }
 
-  fetch(`https://reqres.in/api/users/${b._id}`, {
-    method: "PUT",
-    body: datos
-  }).then(res=>res.json())
-  .then(res=>console.log(res))
-}
-
-const deleteProducto = () => {
-  const datos = getDataById("formulario3");
-
-  fetch(`https://reqres.in/api/users/${b._id}`, {
-    method: "DELETE"
-  }).then(res=>res.json())
-  .then(res=>console.log(res))
+    if (e.target.classList.contains('btn-danger')) {
+        const producto = carrito[e.target.dataset.id]
+        producto.cantidad--
+        if (producto.cantidad === 0) {
+            delete carrito[e.target.dataset.id]
+        } else {
+            carrito[e.target.dataset.id] = {...producto}
+        }
+        pintarCarrito()
+    }
+    e.stopPropagation()
 }

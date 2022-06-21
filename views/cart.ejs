@@ -53,9 +53,6 @@
     </ul>
   </header>
   <main>
-
-    <div class="form delete"></div>
-
     <% if (cart) {%> 
       <div class="productos">
         <h2 class="azul">Vista de Carrito</h2>
@@ -66,8 +63,8 @@
                 <img src=<%=prod?.imgUrl%> alt=<%=prod?.title%>/>
                 <div class="card-body">
                   <h4 class="card-title"><%=prod?.title%></h4>
-                  <span class="card-text">Precio: $<%=prod?.price%></span>
-                  <span class="card-text">Stock: <%=prod?.cant%></span>
+                  <div class="card-text">Precio: $<%=prod?.price%></div>
+                  <div class="card-text">Stock: <%=prod?.cant%></div>
                 </div>
               </div>
             </article>
@@ -75,6 +72,9 @@
         </div>
       </div>
     <% } %>
+
+    <div class="form delete"></div>
+    
   </main>
 </body>
 </html>
