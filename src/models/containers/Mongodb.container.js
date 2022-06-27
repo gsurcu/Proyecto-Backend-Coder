@@ -1,9 +1,9 @@
-
 const mongoose = require('mongoose');
 const { formatErrorObject } = require('../../utils/api.utils');
 const constants = require('../../constants/api.constants');
 const { errorLog } = require('../../middlewares/logger')
-
+const MongoDBClient = require('../../db/mongo/MongoDBClient');
+const { DBConfig } = require('../../config/dbConfig');
 const { 
   STATUS: { 
     INTERNAL_ERROR,
@@ -14,13 +14,22 @@ const {
 
 class MongoDBContainer {
   static instancia;
-  constructor(collection, Schema) {
+  constructor(collection, db, Schema) {
+    this.client = new MongoDBClient(DBConfig.mongo.DB_URI(db));
+    this.client.connect();
+    this.projection = DBConfig.mongo.projection;
     this.model = mongoose.model(collection, Schema);
+    // if (!MongoDBContainer.instancia) {
+    //   MongoDBContainer.instancia = this;
+    //   return this;
+    // } else {
+    //   return MongoDBContainer.instancia;      
+    // }
   };
 
   async getAll(filter = {}) {
     try{
-      const documents = await this.model.find(filter,{ __v: 0 }).lean();
+      const documents = await this.model.find(filter, this.projection).lean();
       return documents;
     }
     catch(error) {
@@ -31,7 +40,7 @@ class MongoDBContainer {
 
   async getById(id) {
     try {
-      const document = await this.model.findById(id, { __v: 0 }).lean();
+      const document = await this.model.findById(id, this.projection).lean();
       if (!document) {
         const errorMessage = `Resource with id ${id} does not exist in our records`;
         const newError = formatErrorObject(NOT_FOUND.tag, errorMessage);
@@ -49,7 +58,7 @@ class MongoDBContainer {
   async createItem(resourceItem) {
     try {
       const newItem = new this.model(resourceItem);
-      await newItem.save();console.log(newItem);
+      await newItem.save();//console.log(newItem);
       return newItem;
     }
     catch (error) {

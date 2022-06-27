@@ -1,12 +1,26 @@
-const { errorLog } = require('../../middlewares/logger');
-const MongoDBContainer = require('../containers/Mongodb.container');
-const ProductsSchema = require('../schemas/Product.schema');
-const collection = "productos";
+const { errorLog } = require('../../../middlewares/logger');
+const MongoDBContainer = require('../../containers/Mongodb.container');
+const ProductsSchema = require('../../schemas/mongo/Product.schema');
 
-class ProductsDao extends MongoDBContainer {
-  constructor() {
-    super(collection, ProductsSchema)
+class ProductsMongoDao extends MongoDBContainer {
+  static instance;
+  constructor(collection, db) {
+    super(collection, db, ProductsSchema);
+    if (!ProductsMongoDao.instance) {
+      ProductsMongoDao.instance = this;
+      return this;
+    } else {
+      return ProductsMongoDao.instance;
+    }
   }
+
+  async getItem(id) {
+    if(id) {
+      return await this.getById(id)
+    }
+    return await this.getAll()
+  }
+
   async saveItem(item) {
     try {
       const newItem = {...item, timeStamp: Date.now()}
@@ -39,4 +53,4 @@ class ProductsDao extends MongoDBContainer {
   }
 }
 
-module.exports = ProductsDao;
+module.exports = ProductsMongoDao;

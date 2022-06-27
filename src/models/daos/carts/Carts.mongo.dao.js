@@ -1,13 +1,18 @@
-const { errorLog } = require('../../middlewares/logger');
-const MongoDBContainer = require('../containers/Mongodb.container');
-const CarritoSchema = require('../schemas/Cart.schema');
-const ProductsDao = require('./Products.dao');
+const { errorLog } = require('../../../middlewares/logger');
+const MongoDBContainer = require('../../containers/Mongodb.container');
+const CartSchema = require('../../schemas/mongo/Cart.schema');
+// const ProductsDao = require('./products/Products.mongo.dao');
 
-const collection = "carritos";
-const Products = new ProductsDao();
-class CarritosDao extends MongoDBContainer {
-  constructor() {
-    super(collection, CarritoSchema)
+class CartsMongoDao extends MongoDBContainer {
+  static instance;
+  constructor(collection, db) {
+    super(collection, db, CartSchema);
+    if (!CartsMongoDao.instance) {
+      CartsMongoDao.instance = this;
+      return this
+    } else {
+      return CartsMongoDao.instance;
+    }
   }
 
   async createCart(id) {
@@ -103,4 +108,4 @@ class CarritosDao extends MongoDBContainer {
   }
 }
 
-module.exports = CarritosDao;
+module.exports = CartsMongoDao;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema
-const CarritoSchema = new Schema({
+const CartSchema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
   cart: [{ 
     prod_id: { type: Schema.Types.ObjectId, ref: "productos" },
@@ -16,4 +16,4 @@ const CarritoSchema = new Schema({
   send: { type: Boolean, required: true }
 })
 
-module.exports = CarritoSchema;
+module.exports = CartSchema;
