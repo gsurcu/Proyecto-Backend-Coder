@@ -2,16 +2,16 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
-const passport = require('./middlewares/passport');
+const passport = require('./src/middlewares/passport');
 const cluster = require('cluster')
 const os = require('os')
 const http = require('http')
-const  ChatDao = require('./models/daos/Chat.dao')
+const ChatDao = require('./src/models/daos/Chat.dao')
+const Router = require('./src/routers/app.routers');
 
+const router = new Router()
 const chat = new ChatDao()
-const dbConfig = require('./db/config');
-const apisRoutes = require('./routers/app.routers');
-const { errorLog } = require('./middlewares/logger');
+const { errorLog } = require('./src/middlewares/logger');
 
 const mode = process.argv[3] == 'cluster';
 const app = express();
@@ -29,7 +29,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: dbConfig.mongodb.connectTo('sessions')
+    mongoUrl: "" //dbConfig.mongodb.connectTo('sessions')
   })
 }));
 app.use(passport.initialize());
@@ -40,7 +40,7 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 // Routes
-app.use(apisRoutes);
+app.use(router.start());
 
 if (mode && cluster.isPrimary) {
   console.log('Primary process PID =>', process.pid)
@@ -69,11 +69,8 @@ if (mode && cluster.isPrimary) {
     io.sockets.emit("chat", lista)
   }
   const runningServer = server.listen(PORT, async () => {
-    mongoose.connect(dbConfig.mongodb.connectTo('ecommerce'))
-    .then(() => {
-      console.log('Connected to DB!');
-      console.log('[', process.pid, `] => running on http://localhost:${PORT}`);
-    });
+    console.log('Connected to DB!');
+    console.log('[', process.pid, `] => running on http://localhost:${PORT}`);
   });
   
   runningServer.on('error', async (error) => {

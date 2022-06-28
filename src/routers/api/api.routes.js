@@ -1,19 +1,19 @@
 const express = require('express');
-const productsRoutes = require('./productos/productos.routes');
-const carritoRoutes = require('./cart/cart.routes');
-const authRoutes = require('./auth/auth.routes');
-const randomNumber = require('./random/random.routes');
+const ProductsRouter = require('./products/products.routes');
+const CartsRouter = require('./cart/cart.routes');
 const router = express.Router();
 
-//Routes
-router.use('/auth', authRoutes);
-router.use('/productos', productsRoutes);
-router.use('/carrito', carritoRoutes);
+class ApiRouter {
+  constructor() {
+    this.productsRoutes = new ProductsRouter();
+    this.cartsRoutes = new CartsRouter();
+  }
+  start() {
+    //Routes
+    router.use('/products', this.productsRoutes.start());
+    router.use('/carrito', this.cartsRoutes.start());
+    return router;
+  }
+}
 
-router.get('/randoms', async (req, res) => {
-  const { cant } = req.query;
-  const random = randomNumber(Number(cant));
-  res.render('random', { num: random});
-})
-
-module.exports = router;
+module.exports = ApiRouter;

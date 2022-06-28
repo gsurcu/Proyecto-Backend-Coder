@@ -1,16 +1,22 @@
 const express = require('express')
-const { crearCarritoController, eliminarCarritoController, listarCarritoController, agregarProdCarritoController, eliminarProdCarritoController } = require('../../../controllers/carts.controllers.js');
-
+const CartsController = require('../../../controllers/carts.controllers.js');
 const router = express.Router();
 
-router.post('/', crearCarritoController);
+class CartsRouter {
+  constructor() {
+    this.cartsController = new CartsController();
+  }
 
-router.delete('/:id', eliminarCarritoController);
+  start() {
+    router.post('/', this.cartsController.createCart);
+    router.delete('/:id', this.cartsController.deleteCart);
+    router.get('/:id/productos', this.cartsController.listCart);
+    router.post('/:id/productos/:id_prod', this.cartsController.addProd);
+    router.delete('/:id/productos/:id_prod', this.cartsController.deleteProd);
 
-router.get('/:id/productos', listarCarritoController);
+    return router
+  }
+}
 
-router.post('/:id/productos/:id_prod', agregarProdCarritoController);
 
-router.delete('/:id/productos/:id_prod', eliminarProdCarritoController);
-
-module.exports = router;
+module.exports = CartsRouter;
