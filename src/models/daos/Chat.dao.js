@@ -4,11 +4,11 @@ const ChatSchema = require('../schemas/mongo/Chat.schema')
 const { errorLog } = require('../../middlewares/logger')
 
 const collection = "chat"
-
+const db ="ecommerce"
 class ChatDao extends MongoDBContainer {
   static instance;
   constructor() {
-    super(collection, ChatSchema);
+    super(collection, db, ChatSchema);
     if (!ChatDao.instance) {
       ChatDao.instance = this;
       return this;

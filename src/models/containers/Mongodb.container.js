@@ -15,16 +15,16 @@ const {
 class MongoDBContainer {
   static instancia;
   constructor(collection, db, Schema) {
-    this.client = new MongoDBClient(DBConfig.mongo.DB_URI(db));
-    this.client.connect();
-    this.projection = DBConfig.mongo.projection;
-    this.model = mongoose.model(collection, Schema);
-    // if (!MongoDBContainer.instancia) {
-    //   MongoDBContainer.instancia = this;
-    //   return this;
-    // } else {
-    //   return MongoDBContainer.instancia;      
-    // }
+    if (!MongoDBContainer.instancia) {
+      this.client = new MongoDBClient(DBConfig.mongo.DB_URI(db));
+      this.client.connect();
+      this.projection = DBConfig.mongo.projection;
+      this.model = mongoose.model(collection, Schema);
+      MongoDBContainer.instancia = this;
+      return this;
+    } else {
+      return MongoDBContainer.instancia;      
+    }
   };
 
   async getAll(filter = {}) {

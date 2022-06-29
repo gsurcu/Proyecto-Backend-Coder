@@ -10,7 +10,7 @@ class MongoDBClient extends DBClient {
   }
 
   async connect() {
-    try {
+    try { console.log(this.uri)
       if (!this.connected) {
         await this.client.connect(this.uri);
         this.connected = true;

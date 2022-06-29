@@ -10,7 +10,7 @@ class ApiRouter {
   }
   start() {
     //Routes
-    router.use('/products', this.productsRoutes.start());
+    router.use('/productos', this.productsRoutes.start());
     router.use('/carrito', this.cartsRoutes.start());
     return router;
   }

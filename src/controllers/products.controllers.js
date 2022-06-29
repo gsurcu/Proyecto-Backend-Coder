@@ -3,16 +3,15 @@ const ProductsRepository = require("../models/repository/Products.repository");
 
 class ProductsController {
   constructor() {
-    this.productsDao = ProductsRepository
-    
+    this.productsDao = ProductsRepository    
   }
 
-  create = async (req, res) => {
+  async create (req, res) {
     try {
       const product = req.body;
       
       if (product) {
-        const nuevoProducto =   await this.productsDao.createProduct(product);
+        const nuevoProducto = await this.productsDao.createProduct({product});
         if (nuevoProducto) {
           return res.status(200).json(nuevoProducto);
         }
@@ -24,9 +23,9 @@ class ProductsController {
     }
   };
 
-  list = async (req, res) => {
+  async read (req, res) {
     try {
-      const { id } = req.params;
+      const id = req.params?.id;
       if (id) {
         const product = await this.productsDao.getProductById({id});
         return res.status(200).json(product);
@@ -38,7 +37,7 @@ class ProductsController {
     }
   }
   
-  update = async (req, res) => {
+  async update (req, res) {
     try {
       const { id } = req.params;
       const item = req.body;
@@ -53,7 +52,7 @@ class ProductsController {
     }
   };
 
-  delete = async (req, res) => {
+  async delete (req, res) {
     try {
       const { id } = req.params;
 
@@ -66,6 +65,8 @@ class ProductsController {
       errorLog(error.message)
     }
   };
+
+  async readByCategory (req, res) {}
 }
 
 

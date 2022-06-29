@@ -2,7 +2,7 @@ const MongoDBContainer = require('../containers/Mongodb.container');
 const AccountsDao = require('../daos/Accounts.dao');
 const { generateInitialAccount } = require('../../utils/accounts.utils');
 const { formatErrorObject } = require('../../utils/api.utils');
-const UserSchema = require('../schemas/User.schema');
+const UserSchema = require('../schemas/mongo/User.schema');
 const constants = require('../../constants/api.constants');
 
 const { 
@@ -14,13 +14,14 @@ const {
 } = constants;
 
 const collection = 'User';
+const db = 'ecommerce'
 const Account = new AccountsDao();
 
 class UsersDao extends MongoDBContainer {
   static instance;
   constructor() {
     if (!UsersDao.instance) {
-      super(collection, UserSchema);
+      super(collection, db, UserSchema);
       UsersDao.instance = this;
       return this;
     }

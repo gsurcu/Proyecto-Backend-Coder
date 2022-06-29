@@ -32,7 +32,7 @@ const warnLogger = winston.createLogger({
       )
     }),
     new winston.transports.File({
-      filename:'./logger/logs/warn.log',
+      filename:'./src/logger/logs/warn.log',
       format: winston.format.json()
     })
   ],
@@ -49,7 +49,7 @@ const errorLogger = winston.createLogger({
       )
     }),
     new winston.transports.File({
-      filename:'./logger/logs/error.log',
+      filename:'./src/logger/logs/error.log',
       format: winston.format.json()
     })
   ],

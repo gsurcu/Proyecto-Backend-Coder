@@ -2,7 +2,7 @@ const express = require('express');
 const ApiRouter = require('./api/api.routes');
 const { warnLog, infoLog } = require('../middlewares/logger');
 const router = express.Router();
-
+const routes = require('./home.routers')
 
 //Routes
 class Router {
@@ -12,7 +12,8 @@ class Router {
 
   start(){
     router.use(infoLog);
-    router.use('/api', this.apiRoutes.start());
+    router.use('/', routes)
+    router.use('/', this.apiRoutes.start());
     router.use('/*', warnLog);
     return router;
   }
